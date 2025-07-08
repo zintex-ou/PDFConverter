@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>appId</key>
+	<string>https://apps.apple.com/app/id</string>
+	<key>adapty</key>
+	<string>public_live_dbF6XXU9.Oxxl3UtUGgkVYkcm8OrW</string>
+	<key>email</key>
+	<string></string>
+	<key>privacy</key>
+	<string>https://telegra.ph/</string>
+	<key>terms</key>
+	<string>https://telegra.ph/</string>
+</dict>
+</plist>
