@@ -15,9 +15,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7CA2B6352E154EBD00B02792 /* PDF Converter */ = {
+		7CA2B6352E154EBD00B02792 /* PDF Creator */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "PDF Converter";
+			path = "PDF Creator";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -37,7 +37,7 @@
 		7CA2B62A2E154EBD00B02792 = {
 			isa = PBXGroup;
 			children = (
-				7CA2B6352E154EBD00B02792 /* PDF Converter */,
+				7CA2B6352E154EBD00B02792 /* PDF Creator */,
 				7CA2B6342E154EBD00B02792 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,7 +66,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				7CA2B6352E154EBD00B02792 /* PDF Converter */,
+				7CA2B6352E154EBD00B02792 /* PDF Creator */,
 			);
 			name = "PDF Converter";
 			packageProductDependencies = (
@@ -258,7 +258,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "PDF Converter/Application/Resources/InfoPlist/PDF-Converter-Info.plist";
+				INFOPLIST_FILE = "PDF Creator/Application/Resources/InfoPlist/PDF-Converter-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "PDF Creator";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -301,7 +301,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "PDF Converter/Application/Resources/InfoPlist/PDF-Converter-Info.plist";
+				INFOPLIST_FILE = "PDF Creator/Application/Resources/InfoPlist/PDF-Converter-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "PDF Creator";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
