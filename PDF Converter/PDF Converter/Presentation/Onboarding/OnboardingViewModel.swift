@@ -20,12 +20,4 @@ final class OnboardingViewModel: ObservableObject {
             
         }
     }
-    
-    func getOpasityForClose() -> Double {
-        currentIndex == pages.count - 1 ? 1 : 0
-    }
-    
-    func getOpasityForBottom() -> Double {
-        currentIndex == pages.count - 1 ? 1 : 0
-    }
 }
