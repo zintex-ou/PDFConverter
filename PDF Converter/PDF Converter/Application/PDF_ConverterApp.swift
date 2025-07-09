@@ -4,7 +4,7 @@ import SwiftUI
 struct PDF_ConverterApp: App {
     var body: some Scene {
         WindowGroup {
-            PaywallView()
+            OnboardingView()
         }
     }
 }

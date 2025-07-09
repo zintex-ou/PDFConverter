@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 7C2876FD2E1D3FF1001FA713 /* KeychainAccess */; };
-		7C2877032E1D40EC001FA713 /* Adapty in Frameworks */ = {isa = PBXBuildFile; productRef = 7C2877022E1D40EC001FA713 /* Adapty */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +28,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */,
-				7C2877032E1D40EC001FA713 /* Adapty in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +71,6 @@
 			name = "PDF Converter";
 			packageProductDependencies = (
 				7C2876FD2E1D3FF1001FA713 /* KeychainAccess */,
-				7C2877022E1D40EC001FA713 /* Adapty */,
 			);
 			productName = "PDF Converter";
 			productReference = 7CA2B6332E154EBD00B02792 /* PDF Converter.app */;
@@ -105,7 +102,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				7C2876FC2E1D3FF1001FA713 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				7C2877012E1D40EC001FA713 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7CA2B6342E154EBD00B02792 /* Products */;
@@ -370,14 +366,6 @@
 				kind = branch;
 			};
 		};
-		7C2877012E1D40EC001FA713 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/adaptyteam/AdaptySDK-iOS";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.8.2;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -385,11 +373,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C2876FC2E1D3FF1001FA713 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
-		};
-		7C2877022E1D40EC001FA713 /* Adapty */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7C2877012E1D40EC001FA713 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
-			productName = Adapty;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
