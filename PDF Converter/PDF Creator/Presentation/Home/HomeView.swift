@@ -19,17 +19,38 @@ struct HomeView: View {
     
     private
     var listView: some View {
-        ScrollView {
-            VStack(spacing: 8) {
-                ForEach(viewModel.pdfMetaData) { metaData in
-                    list(cell: metaData)
-                }
-            }
-            .padding(.top, 16)
+        List(viewModel.pdfMetaData) { metaData in
+            list(cell: metaData)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.white)
+                .listRowBackground(
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(Color.white)
+                        .clipped()
+                )
+                .contextMenu(menuItems: {
+                    Button("Rename") {
+                        
+                    }
+                    
+                    Button("Print") {
+                        
+                    }
+                    
+                    Button("Share") {
+                        
+                    }
+                    
+                    Button("Delete", role: .destructive) {
+                        
+                    }
+                })
         }
-        .padding(.horizontal, 16)
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
         .background(Color(hex: "#FAFAFA"))
-        .scrollIndicators(.hidden)
+        .listRowSpacing(8)
     }
     
     private
@@ -81,8 +102,6 @@ struct HomeView: View {
             .lineLimit(1)
         }
         .padding(.all, 16)
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 24))
     }
 }
 

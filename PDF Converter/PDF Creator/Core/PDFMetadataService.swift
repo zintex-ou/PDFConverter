@@ -26,7 +26,6 @@ final class PDFMetadataService {
         var title = attributes?[PDFDocumentAttribute.titleAttribute] as? String
         
         if title == nil {
-            // Получаем имя файла с расширением из url
             title = url.lastPathComponent
         }
         
