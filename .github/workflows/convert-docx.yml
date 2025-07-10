@@ -1,0 +1,31 @@
+name: Convert DOCX to PDF
+
+on:
+  repository_dispatch:
+    types: [docx-to-pdf]
+
+jobs:
+  convert:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Prepare output folder
+      run: mkdir -p output
+
+    - name: Convert DOCX to PDF
+      uses: docker://pandoc/latex:3.5
+      with:
+        args: |
+          ${{ github.event.client_payload.filename }} \
+          --output=output/${{ github.event.client_payload.outputname }} \
+          --pdf-engine=xelatex
+
+    - name: Upload PDF artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: converted-pdf
+        path: output/${{ github.event.client_payload.outputname }}
+        retention-days: 1
