@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct TabBarView: View {
     @StateObject var viewModel = TabBarViewModel()
@@ -73,12 +74,29 @@ struct TabBarView: View {
             }
             
             Button("Gallery") {
-                
+                viewModel.showPhotoPicker()
             }
             
             Button("Files") {
-                
+                viewModel.showDocumentPicker()
             }
+        }
+        .fileImporter(
+            isPresented: $viewModel.shouldShowDocumentPicker,
+            allowedContentTypes: [.init(filenameExtension: "docx")!]
+        ) { result in
+            if case .success(let url) = result {
+                print(url)
+            }
+        }
+        .photosPicker(
+            isPresented: $viewModel.shouldShowPhotoPicker,
+            selection: $viewModel.photoItems,
+            matching: .images,
+            photoLibrary: .shared()
+        )
+        .onAppear {
+            viewModel.resetPhotoItems()
         }
     }
 }

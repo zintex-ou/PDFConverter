@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 7C2876FD2E1D3FF1001FA713 /* KeychainAccess */; };
+		7C287C5C2E1FE4BB001FA713 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7C287C5B2E1FE4BB001FA713 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */,
+				7C287C5C2E1FE4BB001FA713 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +73,7 @@
 			name = "PDF Converter";
 			packageProductDependencies = (
 				7C2876FD2E1D3FF1001FA713 /* KeychainAccess */,
+				7C287C5B2E1FE4BB001FA713 /* ZIPFoundation */,
 			);
 			productName = "PDF Converter";
 			productReference = 7CA2B6332E154EBD00B02792 /* PDF Converter.app */;
@@ -102,6 +105,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				7C2876FC2E1D3FF1001FA713 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				7C287C5A2E1FE4BB001FA713 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7CA2B6342E154EBD00B02792 /* Products */;
@@ -261,6 +265,9 @@
 				INFOPLIST_FILE = "PDF Creator/Application/Resources/InfoPlist/PDF-Converter-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "PDF Creator";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and create images into PDF documents.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the camera to scan and create images into PDF documents.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -304,6 +311,9 @@
 				INFOPLIST_FILE = "PDF Creator/Application/Resources/InfoPlist/PDF-Converter-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "PDF Creator";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and create images into PDF documents.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the camera to scan and create images into PDF documents.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -366,6 +376,14 @@
 				kind = branch;
 			};
 		};
+		7C287C5A2E1FE4BB001FA713 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.19;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -373,6 +391,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C2876FC2E1D3FF1001FA713 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		7C287C5B2E1FE4BB001FA713 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C287C5A2E1FE4BB001FA713 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

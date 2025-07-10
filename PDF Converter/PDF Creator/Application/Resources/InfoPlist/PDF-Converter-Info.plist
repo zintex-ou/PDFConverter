@@ -8,5 +8,7 @@
 		<string>Urbanist-SemiBold.ttf</string>
 		<string>Urbanist-Regular.ttf</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>
