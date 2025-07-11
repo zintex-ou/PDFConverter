@@ -28,6 +28,45 @@ struct PDFEditorView: View {
             bottomBarView
         }
         .background(Color(hex: "#FAFAFA"))
+        .confirmationDialog(
+            "",
+            isPresented: $viewModel.shouldShowConfirmationDialog,
+            titleVisibility: .hidden
+        ) {
+            Button("Camera") {
+                coordinator.presentFullScreenCover(id: CameraView.navigationID) {
+                    CameraView()
+                }
+            }
+            
+            Button("Gallery") {
+                viewModel.showPhotoPicker()
+            }
+            
+            Button("PDF File") {
+                viewModel.showDocumentPicker()
+            }
+        }
+        .photosPicker(
+            isPresented: $viewModel.shouldShowPhotoPicker,
+            selection: $viewModel.photoItems,
+            matching: .images,
+            photoLibrary: .shared()
+        )
+        .fileImporter(
+            isPresented: $viewModel.shouldShowDocumentPicker,
+            allowedContentTypes: [
+                .pdf
+            ]
+        ) { result in
+            switch result {
+            case .success(let url):
+                _ = url.startAccessingSecurityScopedResource()
+                viewModel.addToPDFDocuments(from: url)
+            case .failure:
+                break
+            }
+        }
     }
     
     var navigationView: some View {
