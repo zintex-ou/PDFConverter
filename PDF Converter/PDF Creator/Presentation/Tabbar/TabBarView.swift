@@ -86,7 +86,9 @@ struct TabBarView: View {
             allowedContentTypes: [
                 .pdf,
                 .plainText,
-                .init(filenameExtension: "docx")!
+                .init(filenameExtension: "docx")!,
+                .init(filenameExtension: "xlsx")!,
+                .init(filenameExtension: "pptx")!
             ]
         ) { result in
             switch result {
