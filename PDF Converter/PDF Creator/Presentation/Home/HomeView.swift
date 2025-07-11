@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
+    @EnvironmentObject private var coordinator: Coordinator
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -79,6 +80,11 @@ struct HomeView: View {
                         }
                     }
                 })
+                .onTapGesture {
+                    coordinator.pushTo(id: PDFEditorView.navigationID) {
+                        PDFEditorView(pdfMetaData: metaData)
+                    }
+                }
         }
         .scrollContentBackground(.hidden)
         .background(Color(hex: "#FAFAFA"))

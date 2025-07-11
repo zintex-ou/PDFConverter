@@ -54,6 +54,21 @@ extension UIApplication {
         
         topViewController?.present(activityViewController, animated: true)
     }
+    
+    func sharePDF(url: URL, from sourceView: UIView? = nil) {
+        guard FileManager.default.fileExists(atPath: url.path) else { return }
+        
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        
+        // for iPad
+        if let popover = activityViewController.popoverPresentationController, let view = sourceView ?? topViewController?.view {
+            popover.sourceView = view
+            popover.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+        }
+
+        topViewController?.present(activityViewController, animated: true)
+    }
 }
 
 private extension UIApplication {
