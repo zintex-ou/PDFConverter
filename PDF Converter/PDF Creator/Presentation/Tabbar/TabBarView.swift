@@ -16,6 +16,7 @@ struct TabBarView: View {
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
+            .background(Color(hex: "#FAFAFA"))
             
             TabView(selection: $viewModel.selectedTab) {
                 HomeView()
@@ -64,6 +65,7 @@ struct TabBarView: View {
                 }
             }
             .padding(.vertical, 16)
+            .background(Color(hex: "#FAFAFA"))
         }
         .confirmationDialog(
             "",
