@@ -10,11 +10,14 @@ final class TabBarViewModel: ObservableObject {
     @Published var shouldShowPhotoPicker: Bool = false
     @Published var shouldShowDocumentPicker: Bool = false
     @Published var photoItems: [PhotosPickerItem] = []
+    @Published var shouldShowPreviewController: Bool = false
     
+    private let fileManagerService: FileManagerService = .shared
     private(set) var tabBarPages: [TabbarPage] = []
     private let createPDFServcie: CreatePDFService = .shared
     private let notificationService: NotificationService = .shared
     private var cancellable: AnyCancellable?
+    private(set) var selectedFileURL: URL?
     
     init() {
         self.tabBarPages = TabbarBuilder.buildPages()
@@ -40,6 +43,33 @@ final class TabBarViewModel: ObservableObject {
     func resetPhotoItems() {
         photoItems.removeAll()
     }
+    
+    func shouldShowPreviewController(_ url: URL) {
+        selectedFileURL = url
+        shouldShowPreviewController = true
+    }
+    
+    func resetSelectedFileURL() {
+        selectedFileURL = nil
+    }
+    
+    func addToPDFDocuments(from url: URL?) {
+        guard let url else { return }
+        
+        Task {
+            do {
+                if let newURL = try await fileManagerService.copyPDFToDocuments(from: url) {
+                    notificationService.post(event: .createPDFURL, object: newURL)
+                }
+            } catch {
+                
+            }
+        }
+    }
+    
+    func uppdateListOfPDFs() {
+        notificationService.post(event: .updatePDFList, object: nil as String?)
+    }
 }
 
 extension TabBarViewModel {
@@ -60,12 +90,12 @@ extension TabBarViewModel {
     }
     
     private func convertPhotos() async {
-        defer {
-            resetPhotoItems()
-        }
-        
         Task {
             do {
+                defer {
+                    resetPhotoItems()
+                }
+                
                 let data = try await convertPhotosPickerItemToData()
                 let url = try await createPDFServcie.createPDFData(from: data, displayScale: 1)
                 notificationService.post(event: .createPDFURL, object: url)

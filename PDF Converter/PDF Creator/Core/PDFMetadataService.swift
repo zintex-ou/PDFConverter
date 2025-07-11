@@ -3,8 +3,8 @@ import PDFKit
 
 struct PDFMetadata: Identifiable {
     let id = UUID()
-    let title: String?
-    let url: URL
+    var title: String?
+    var url: URL
     let creationDate: Date?
     let pageCount: Int
 }

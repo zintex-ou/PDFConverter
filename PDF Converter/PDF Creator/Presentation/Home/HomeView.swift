@@ -15,6 +15,19 @@ struct HomeView: View {
             await viewModel.getAllURLs()
         }
         .animation(.default, value: viewModel.pdfMetaData.count)
+        .alert("Alert Title!", isPresented: $viewModel.shouldShowRenameAlert) {
+            TextField(text: $viewModel.nameToRename) {}
+            
+            Button("Cancel", role: .cancel) {
+                
+            }
+            
+            Button("Ok") {
+                viewModel.renamePDF()
+            }
+        } message: {
+            Text("Enter channel name")
+        }
     }
     
     private
@@ -30,24 +43,43 @@ struct HomeView: View {
                         .clipped()
                 )
                 .contextMenu(menuItems: {
-                    Button("Rename") {
-                        
+                    Button {
+                        viewModel.tapOnRename(metaData)
+                    } label: {
+                        HStack {
+                            Text("Rename")
+                            
+                            Image(.property1Edit)
+                        }
                     }
                     
-                    Button("Print") {
-                        
+                    Button {
+                        viewModel.print(metaData)
+                    } label: {
+                        HStack {
+                            Text("Print")
+                            
+                            Image(.property1Print)
+                        }
                     }
                     
-                    Button("Share") {
-                        
-                    }
+                    ShareLink(
+                        "Share",
+                        item: metaData.url,
+                        subject: Text(metaData.title ?? "No name")
+                    )
                     
-                    Button("Delete", role: .destructive) {
-                        
+                    Button(role: .destructive) {
+                        viewModel.remove(metaData)
+                    } label: {
+                        HStack {
+                            Text("Delete")
+                            
+                            Image(.property1Delite)
+                        }
                     }
                 })
         }
-        .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Color(hex: "#FAFAFA"))
         .listRowSpacing(8)

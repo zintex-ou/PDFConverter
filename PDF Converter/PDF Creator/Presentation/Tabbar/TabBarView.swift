@@ -83,10 +83,25 @@ struct TabBarView: View {
         }
         .fileImporter(
             isPresented: $viewModel.shouldShowDocumentPicker,
-            allowedContentTypes: [.init(filenameExtension: "docx")!]
+            allowedContentTypes: [
+                .pdf,
+                .plainText,
+                .init(filenameExtension: "docx")!
+            ]
         ) { result in
-            if case .success(let url) = result {
-                print(url)
+            switch result {
+            case .success(let url):
+                _ = url.startAccessingSecurityScopedResource()
+                
+                let isPDF = url.pathExtension.lowercased() == "pdf"
+                
+                if isPDF {
+                    viewModel.addToPDFDocuments(from: url)
+                } else {
+                    viewModel.shouldShowPreviewController(url)
+                }
+            case .failure:
+                break
             }
         }
         .photosPicker(
@@ -98,6 +113,31 @@ struct TabBarView: View {
         .onAppear {
             viewModel.resetPhotoItems()
         }
+        .sheet(
+            isPresented: $viewModel.shouldShowPreviewController,
+            onDismiss: {
+                viewModel.uppdateListOfPDFs()
+                viewModel.resetSelectedFileURL()
+            },
+            content: {
+                if let url = viewModel.selectedFileURL {
+                    PreviewController(url: url, isPresented: $viewModel.shouldShowPreviewController)
+                        .ignoresSafeArea()
+                        .presentationDetents([.large])
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                let alert = UIAlertController(
+                                    title: "How to Convert to PDF",
+                                    message: "To convert the document to PDF, tap the Share icon, select Print, then tap the Share icon again in the Print preview and choose \"Save to Files\" to export it as a PDF to the app folder \"PDF Creator\" → \"PDFDocuments\".",
+                                    preferredStyle: .alert
+                                )
+                                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                                
+                                UIApplication.shared.topViewController?.present(alert, animated: true)
+                            }
+                        }
+                }
+            })
     }
 }
 

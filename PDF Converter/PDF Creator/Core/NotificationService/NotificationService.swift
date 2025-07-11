@@ -4,7 +4,7 @@ final class NotificationService {
     static let shared = NotificationService()
     private init() {}
 
-    func post<T>(event: NotificationEvent, object: T) {
+    func post<T>(event: NotificationEvent, object: T?) {
         NotificationCenter.default.post(
             name: NSNotification.Name(event.rawValue),
             object: object
