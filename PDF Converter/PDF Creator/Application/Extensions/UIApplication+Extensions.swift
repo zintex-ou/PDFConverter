@@ -3,6 +3,9 @@ import StoreKit
 import SafariServices
 
 extension UIApplication {
+    var appName: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? ""
+    }
 
     var topViewController: UIViewController? {
         var topViewController = connectedScenes.compactMap {

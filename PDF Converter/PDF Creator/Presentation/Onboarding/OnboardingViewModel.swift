@@ -13,11 +13,11 @@ final class OnboardingViewModel: ObservableObject {
         self.pages = OnboardingBuilder.buildPages()
     }
     
-    func tapOnContinue() {
+    func tapOnContinue(onboardingCompletion: @escaping () -> Void) {
         if currentIndex < pages.count - 1 {
             currentIndex += 1
         } else {
-            
+            onboardingCompletion()
         }
     }
 }

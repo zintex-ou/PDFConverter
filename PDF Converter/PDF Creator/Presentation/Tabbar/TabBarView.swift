@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 
 struct TabBarView: View {
     @StateObject var viewModel = TabBarViewModel()
+    @EnvironmentObject private var coordinator: Coordinator
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -70,7 +71,9 @@ struct TabBarView: View {
             titleVisibility: .hidden
         ) {
             Button("Camera") {
-                
+                coordinator.presentFullScreenCover(id: CameraView.navigationID) {
+                    CameraView()
+                }
             }
             
             Button("Gallery") {

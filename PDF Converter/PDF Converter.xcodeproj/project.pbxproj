@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 7C2876FD2E1D3FF1001FA713 /* KeychainAccess */; };
 		7C287C5C2E1FE4BB001FA713 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7C287C5B2E1FE4BB001FA713 /* ZIPFoundation */; };
+		7C7442D62E2139E5008634FE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7442D52E2139E5008634FE /* FirebaseAnalytics */; };
+		7C7442D82E2139E5008634FE /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7442D72E2139E5008634FE /* FirebaseAnalyticsCore */; };
+		7C7442DA2E2139E5008634FE /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7442D92E2139E5008634FE /* FirebaseCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +32,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */,
+				7C7442DA2E2139E5008634FE /* FirebaseCore in Frameworks */,
 				7C287C5C2E1FE4BB001FA713 /* ZIPFoundation in Frameworks */,
+				7C7442D62E2139E5008634FE /* FirebaseAnalytics in Frameworks */,
+				7C7442D82E2139E5008634FE /* FirebaseAnalyticsCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +80,9 @@
 			packageProductDependencies = (
 				7C2876FD2E1D3FF1001FA713 /* KeychainAccess */,
 				7C287C5B2E1FE4BB001FA713 /* ZIPFoundation */,
+				7C7442D52E2139E5008634FE /* FirebaseAnalytics */,
+				7C7442D72E2139E5008634FE /* FirebaseAnalyticsCore */,
+				7C7442D92E2139E5008634FE /* FirebaseCore */,
 			);
 			productName = "PDF Converter";
 			productReference = 7CA2B6332E154EBD00B02792 /* PDF Converter.app */;
@@ -106,6 +115,7 @@
 			packageReferences = (
 				7C2876FC2E1D3FF1001FA713 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				7C287C5A2E1FE4BB001FA713 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				7C7442D42E2139E5008634FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7CA2B6342E154EBD00B02792 /* Products */;
@@ -384,6 +394,14 @@
 				minimumVersion = 0.9.19;
 			};
 		};
+		7C7442D42E2139E5008634FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.15.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -396,6 +414,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C287C5A2E1FE4BB001FA713 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
 			productName = ZIPFoundation;
+		};
+		7C7442D52E2139E5008634FE /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C7442D42E2139E5008634FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		7C7442D72E2139E5008634FE /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C7442D42E2139E5008634FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
+		7C7442D92E2139E5008634FE /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C7442D42E2139E5008634FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -2,6 +2,8 @@ import SwiftUI
 
 struct OnboardingView: View {
     @StateObject var viewModel = OnboardingViewModel()
+    @EnvironmentObject private var coordinator: Coordinator
+    @AppStorage(Constants.isOnboardingCompleted) var isOnboardingCompleted: Bool = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -35,11 +37,16 @@ struct OnboardingView: View {
                 
                 Button("Continue", action: {
                     withAnimation {
-                        viewModel.tapOnContinue()
+                        viewModel.tapOnContinue {
+                            isOnboardingCompleted = true
+                            coordinator.pushTo(id: TabBarView.navigationID) {
+                                TabBarView()
+                            }
+                        }
                     }
                 })
-                .buttonStyle(.main)
                 .scaleAnimation()
+                .buttonStyle(.main)
                 .padding(.top, 16)
             }
             .padding(.horizontal, 16)

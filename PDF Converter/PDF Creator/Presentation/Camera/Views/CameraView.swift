@@ -3,6 +3,7 @@ import SwiftUI
 
 struct CameraView: View {
     @StateObject private var viewModel = CameraViewModel()
+    @EnvironmentObject private var coordinator: Coordinator
     @State private var isFocused = false
     @State private var focusLocation: CGPoint = .zero
     @State private var isScaled = false // To scale the view
@@ -16,7 +17,7 @@ struct CameraView: View {
                 VStack(spacing: 0) {
                     HStack {
                         Button {
-
+                            coordinator.dismissFullScreenCover()
                         } label: {
                             Text("Cancel")
                                 .foregroundStyle(.white)
@@ -60,10 +61,15 @@ struct CameraView: View {
                             
                             if !viewModel.capturedImagesData.isEmpty {
                                 Button {
-//                                    let viewModel = ImageToPDFViewModel(imagesData: viewModel.capturedImagesData)
-//                                    coordinator.push(page: .convertingImageToPdf(viewModel: viewModel))
+                                    Task {
+                                        await viewModel.convertPhotos()
+                                        
+                                        await MainActor.run {
+                                            coordinator.dismissFullScreenCover()
+                                        }
+                                    }
                                 } label: {
-                                    Text("Next (\(viewModel.capturedImagesData.count))")
+                                    Text("Convert (\(viewModel.capturedImagesData.count))")
                                         .font(.system(size: 17, weight: .semibold))
                                         .foregroundStyle(.black)
                                         .padding(.horizontal, 10)

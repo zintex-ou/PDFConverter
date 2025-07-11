@@ -6,10 +6,8 @@ import Combine
 
 class CameraViewModel: ObservableObject {
     
-    // Reference to the CameraManager.
     @ObservedObject var cameraManager = CameraManager()
     
-    // Published properties to trigger UI updates.
     @Published var isFlashOn = false
     @Published var showAlertError = false
     @Published var showSettingAlert = false
@@ -24,6 +22,8 @@ class CameraViewModel: ObservableObject {
     
     // Cancellable storage for Combine subscribers.
     private var cancelables = Set<AnyCancellable>()
+    private let createPDFServcie: CreatePDFService = .shared
+    private let notificationService: NotificationService = .shared
     
     init() {
         // Initialize the session with the cameraManager's session.
@@ -96,5 +96,23 @@ class CameraViewModel: ObservableObject {
     // Configure the camera through the CameraManager to show a live camera preview.
     func configureCamera() {
         cameraManager.configureCaptureSession()
+    }
+}
+
+extension CameraViewModel {
+    func convertPhotos() async {
+        Task {
+            do {
+                defer {
+                    capturedImage = nil
+                    capturedImagesData.removeAll()
+                }
+                
+                let url = try await createPDFServcie.createPDFData(from: capturedImagesData, displayScale: 1)
+                notificationService.post(event: .createPDFURL, object: url)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }

@@ -7,15 +7,19 @@ extension View {
 }
 
 struct ScaleAnimationModifier: ViewModifier {
-    @State private var enablePulse: Bool = false
+    @State var enablePulse: Bool = false
     
     func body(content: Content) -> some View {
-        content
-            .scaleEffect(enablePulse ? 0.95 : 1)
-            .onAppear {
-                withAnimation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true)) {
+        TimelineView(.animation(minimumInterval: 0.5, paused: false)) { timeline in
+            ZStack {
+                content
+                    .scaleEffect(enablePulse ? 0.95 : 1)
+            }
+            .onChange(of: timeline.date) { newValue in
+                withAnimation(.linear(duration: 0.5)) {
                     enablePulse.toggle()
                 }
             }
+        }
     }
 }
