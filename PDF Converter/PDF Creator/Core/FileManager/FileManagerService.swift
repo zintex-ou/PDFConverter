@@ -46,22 +46,22 @@ final class FileManagerService {
     
     @discardableResult
     func copyPDFToDocuments(from sourceURL: URL) async throws -> URL? {
-        guard let destinationDirectory = getPDFDirectory() else { return nil }
-        let destinationURL = destinationDirectory.appendingPathComponent(sourceURL.lastPathComponent)
-        
-        if fileManager.fileExists(atPath: destinationURL.path) {
-            print("File already exists in destination directory.")
-            return destinationURL
-        }
-        
         do {
+            guard let destinationDirectory = getPDFDirectory() else { return nil }
+            let destinationURL = destinationDirectory.appendingPathComponent(sourceURL.lastPathComponent)
+            
+            if fileManager.fileExists(atPath: destinationURL.path) {
+                try fileManager.removeItem(at: destinationURL)
+            }
+            
             try fileManager.copyItem(at: sourceURL, to: destinationURL)
             return destinationURL
         } catch {
-            print("Failed to copy PDF: \(error)")
+            print("Failed to copy or update PDF: \(error)")
             return nil
         }
     }
+    
     
     func getTemporaryDirectory() -> URL {
         fileManager.temporaryDirectory

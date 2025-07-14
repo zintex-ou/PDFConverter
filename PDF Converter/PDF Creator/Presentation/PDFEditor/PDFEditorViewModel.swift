@@ -30,7 +30,6 @@ final class PDFEditorViewModel: ObservableObject {
         Task {
             do {
                 try await fileManagerService.copyPDFToDocuments(from: pdfMetaData.url)
-                try await fileManagerService.deletePDFDocument(at: defaultMetaData.url)
                 notificationService.post(event: .updatePDFList, object: nil as String?)
                 completion()
             } catch {
@@ -85,7 +84,7 @@ final class PDFEditorViewModel: ObservableObject {
         guard let pdfAfertMergeURL = try await self.createPDFServcie.mergePDFs(
             basePDFURL: self.pdfMetaData.url,
             additionalPDFURL: temporyPDFURLFromImage,
-            directory: self.fileManagerService.getTemporaryDirectory()
+                    destinationURL: self.fileManagerService.getTemporaryDirectory()
         ) else { return nil }
         
         let newModel = try await PDFMetadataService.fetchMetadata(from: pdfAfertMergeURL)

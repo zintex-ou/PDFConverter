@@ -55,7 +55,7 @@ final class CreatePDFService {
     func mergePDFs(
         basePDFURL: URL,
         additionalPDFURL: URL,
-        directory: URL
+        destinationURL: URL
     ) async throws -> URL? {
         guard let basePDF = PDFDocument(url: basePDFURL) else {
             return nil
@@ -73,15 +73,14 @@ final class CreatePDFService {
             }
         }
         
-        let date = Date()
-        let newFileName = "PDF_\(date.timeIntervalSince1970).pdf"
-        let fileURL = directory.appendingPathComponent(newFileName)
+        let originalFileName = basePDFURL.deletingPathExtension().lastPathComponent
+        let destinationURL = destinationURL.appendingPathComponent("\(originalFileName).pdf")
         
-        guard basePDF.write(to: fileURL) else {
+        guard basePDF.write(to: destinationURL) else {
             return nil
         }
         
-        return fileURL
+        return destinationURL
     }
 
     func rearrangePages(
@@ -98,10 +97,8 @@ final class CreatePDFService {
             rearrangedPDF.insert(page, at: newIndex)
         }
 
-        let date = Date()
-        let newFileName = "PDF_\(date.timeIntervalSince1970).pdf"
-        
-        let destinationURL = directoryURL.appendingPathComponent(newFileName)
+        let originalFileName = sourceURL.deletingPathExtension().lastPathComponent
+        let destinationURL = directoryURL.appendingPathComponent("\(originalFileName).pdf")
 
         if rearrangedPDF.write(to: destinationURL) {
             return destinationURL
