@@ -83,5 +83,30 @@ final class CreatePDFService {
         
         return fileURL
     }
-}
 
+    func rearrangePages(
+        from sourceURL: URL,
+        newOrder: [Int],
+        to directoryURL: URL
+    ) async throws -> URL? {
+        guard let originalPDF = PDFDocument(url: sourceURL) else { return nil }
+
+        let rearrangedPDF = PDFDocument()
+
+        for (newIndex, pageIndex) in newOrder.enumerated() {
+            guard let page = originalPDF.page(at: pageIndex) else { continue }
+            rearrangedPDF.insert(page, at: newIndex)
+        }
+
+        let originalName = sourceURL.deletingPathExtension().lastPathComponent
+        let newFileName = "\(originalName)"
+        let destinationURL = directoryURL.appendingPathComponent(newFileName)
+
+        if rearrangedPDF.write(to: destinationURL) {
+            return destinationURL
+        } else {
+            return nil
+        }
+    }
+
+}

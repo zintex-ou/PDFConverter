@@ -16,7 +16,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "84"
             endingLineNumber = "84"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:outputURL:)"
+            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
             endingLineNumber = "60"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:outputURL:)"
+            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
             endingLineNumber = "64"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:outputURL:)"
+            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -64,7 +64,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
             endingLineNumber = "68"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:outputURL:)"
+            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -80,7 +80,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
             endingLineNumber = "72"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:outputURL:)"
+            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

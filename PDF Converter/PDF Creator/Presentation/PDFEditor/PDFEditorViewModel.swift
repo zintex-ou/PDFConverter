@@ -63,10 +63,6 @@ final class PDFEditorViewModel: ObservableObject {
         shouldShowDocumentPicker = true
     }
     
-    func addToPDFDocuments(from url: URL?) {
-        
-    }
-    
     func cameraCompletion(imagesData: [Data]) {
         guard !imagesData.isEmpty else { return }
         
@@ -95,6 +91,23 @@ final class PDFEditorViewModel: ObservableObject {
         let newModel = try await PDFMetadataService.fetchMetadata(from: pdfAfertMergeURL)
         
         return newModel
+    }
+    
+    func rearrangePages(newOrder: [Int]) {
+        Task {
+            do {
+                if let url = try await createPDFServcie.rearrangePages(
+                    from: pdfMetaData.url,
+                    newOrder: newOrder,
+                    to: fileManagerService.getTemporaryDirectory()
+                ) {
+                    let newModel = try await PDFMetadataService.fetchMetadata(from: url)
+                    self.pdfMetaData = newModel
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
