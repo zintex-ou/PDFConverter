@@ -22,7 +22,7 @@ class CameraViewModel: ObservableObject {
     
     // Cancellable storage for Combine subscribers.
     private var cancelables = Set<AnyCancellable>()
-    private let createPDFServcie: CreatePDFService = .shared
+    private let createPDFServcie: PDFService = .shared
     private let notificationService: NotificationService = .shared
     private let imageCompletion: ([Data]) -> Void
     

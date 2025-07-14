@@ -108,6 +108,10 @@ struct PDFEditorView: View {
                                 viewModel.rearrangePages(newOrder: newOrder)
                             }
                         }
+                    } else if instrument.type == .extractText {
+                        coordinator.pushTo(id: ExtractTextView.navigationID) {
+                            ExtractTextView(viewModel: viewModel)
+                        }
                     } else {
                         instrument.comletion()
                     }

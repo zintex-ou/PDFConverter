@@ -11,13 +11,16 @@ final class PDFEditorViewModel: ObservableObject {
     @Published var shouldShowDocumentPicker: Bool = false
     @Published var photoItems: [PhotosPickerItem] = []
     @Published var pdfMetaData: PDFMetadata
+    @Published var extractedText: String?
+    @Published var shouldSHowCopiedAlert: Bool = false
     
     private(set) var instruments: [InstrumentsItem] = []
-    private let createPDFServcie: CreatePDFService = .shared
+    private let createPDFServcie: PDFService = .shared
     private let fileManagerService: FileManagerService = .shared
     private let notificationService: NotificationService = .shared
     private let defaultMetaData: PDFMetadata
     private var cancellable: AnyCancellable?
+    private var extractTextTask: Task<Void, Never>?
     
     init(pdfMetaData: PDFMetadata) {
         self.pdfMetaData = pdfMetaData
@@ -42,7 +45,7 @@ final class PDFEditorViewModel: ObservableObject {
         shouldShowConfirmationDialog = true
     }
     
-    func reorder() {
+    func reorderPage() {
         
     }
     
@@ -50,7 +53,7 @@ final class PDFEditorViewModel: ObservableObject {
         UIApplication.shared.sharePDF(url: pdfMetaData.url)
     }
     
-    func extractText() {
+    func extractTextPage() {
         
     }
     
@@ -84,7 +87,7 @@ final class PDFEditorViewModel: ObservableObject {
         guard let pdfAfertMergeURL = try await self.createPDFServcie.mergePDFs(
             basePDFURL: self.pdfMetaData.url,
             additionalPDFURL: temporyPDFURLFromImage,
-                    destinationURL: self.fileManagerService.getTemporaryDirectory()
+            destinationURL: self.fileManagerService.getTemporaryDirectory()
         ) else { return nil }
         
         let newModel = try await PDFMetadataService.fetchMetadata(from: pdfAfertMergeURL)
@@ -106,6 +109,32 @@ final class PDFEditorViewModel: ObservableObject {
             } catch {
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    func extractText() {
+        extractTextTask?.cancel()
+        
+        extractTextTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let text = try await createPDFServcie.extractText(
+                    from: pdfMetaData.url,
+                    pageIndex: currentPage
+                )
+                self.extractedText = text
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func coppyTextToPasteboard() {
+        shouldSHowCopiedAlert = true
+        UIPasteboard.general.string = extractedText
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.shouldSHowCopiedAlert = false
         }
     }
 }

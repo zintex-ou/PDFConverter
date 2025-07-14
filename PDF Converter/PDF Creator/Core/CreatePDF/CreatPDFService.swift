@@ -5,8 +5,8 @@ import _PhotosUI_SwiftUI
 import SwiftUI
 
 @MainActor
-final class CreatePDFService {
-    static let shared = CreatePDFService()
+final class PDFService {
+    static let shared = PDFService()
     
     private let metaData = [
         kCGPDFContextAllowsPrinting: true
@@ -106,5 +106,12 @@ final class CreatePDFService {
             return nil
         }
     }
-
+    
+    func extractText(from url: URL, pageIndex: Int) async throws -> String? {
+        guard let document = PDFDocument(url: url),
+              let page = document.page(at: pageIndex) else {
+            return nil
+        }
+        return page.string
+    }
 }

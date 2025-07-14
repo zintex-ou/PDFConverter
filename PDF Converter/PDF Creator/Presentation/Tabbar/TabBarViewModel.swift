@@ -14,7 +14,7 @@ final class TabBarViewModel: ObservableObject {
     
     private let fileManagerService: FileManagerService = .shared
     private(set) var tabBarPages: [TabbarPage] = []
-    private let createPDFServcie: CreatePDFService = .shared
+    private let createPDFServcie: PDFService = .shared
     private let notificationService: NotificationService = .shared
     private var cancellable: AnyCancellable?
     private(set) var selectedFileURL: URL?
