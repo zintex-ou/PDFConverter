@@ -50,19 +50,19 @@ struct ReRangePagesView: View {
                                     ),
                                     pageNumber: index
                                 )
+                                .onDrag {
+                                    self.draggingItem = index
+                                    return NSItemProvider(object: String(index) as NSString)
+                                }
+                                .onDrop(of: [.text], delegate: DropViewDelegate(
+                                    current: index,
+                                    items: $pageIndices,
+                                    draggingItem: $draggingItem
+                                ))
                                 
                                 Text("\(index + 1)")
                                     .font(.init(style: .regular, size: 16))
                             }
-                            .onDrag {
-                                self.draggingItem = index
-                                return NSItemProvider(object: String(index) as NSString)
-                            }
-                            .onDrop(of: [.text], delegate: DropViewDelegate(
-                                current: index,
-                                items: $pageIndices,
-                                draggingItem: $draggingItem
-                            ))
                         }
                     }
                     .padding(.top, 8)
