@@ -74,8 +74,8 @@ final class CreatePDFService {
         }
         
         let date = Date()
-        let fileName = "PDF_\(date.timeIntervalSince1970).pdf"
-        let fileURL = directory.appendingPathComponent(fileName)
+        let newFileName = "PDF_\(date.timeIntervalSince1970).pdf"
+        let fileURL = directory.appendingPathComponent(newFileName)
         
         guard basePDF.write(to: fileURL) else {
             return nil
@@ -98,8 +98,9 @@ final class CreatePDFService {
             rearrangedPDF.insert(page, at: newIndex)
         }
 
-        let originalName = sourceURL.deletingPathExtension().lastPathComponent
-        let newFileName = "\(originalName)"
+        let date = Date()
+        let newFileName = "PDF_\(date.timeIntervalSince1970).pdf"
+        
         let destinationURL = directoryURL.appendingPathComponent(newFileName)
 
         if rearrangedPDF.write(to: destinationURL) {

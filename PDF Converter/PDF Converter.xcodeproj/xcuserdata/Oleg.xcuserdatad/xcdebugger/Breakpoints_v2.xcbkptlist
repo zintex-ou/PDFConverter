@@ -7,80 +7,176 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "908090FD-31C7-4C0D-B726-1815AE6BE870"
+            uuid = "18CF8348-9338-4E49-B65B-29F2ABD9669F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PDF Creator/Core/CreatePDF/CreatPDFService.swift"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "copyPDFToDocuments(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1335A4F6-BDB9-414F-B3F8-90328D691A86"
+            uuid = "DE9A220B-582D-4EAF-BDB6-5689207E48C7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PDF Creator/Core/CreatePDF/CreatPDFService.swift"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "copyPDFToDocuments(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D740E9CB-C08C-4EFD-ABE1-82A2F9AC0C8E"
+            uuid = "E582E417-F213-405F-A5BD-401A32FD0632"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PDF Creator/Core/CreatePDF/CreatPDFService.swift"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "copyPDFToDocuments(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B1872F8E-A735-4824-9937-5E621F7D4419"
+            uuid = "C851D347-3BE5-4474-B215-043469F4601D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PDF Creator/Core/CreatePDF/CreatPDFService.swift"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "copyPDFToDocuments(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BA5CF100-D450-4020-9A88-B8DD17174E69"
+            uuid = "87AB701F-53C8-4E18-870F-EB0EE99DF9B6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PDF Creator/Core/CreatePDF/CreatPDFService.swift"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "mergePDFs(basePDFURL:additionalPDFURL:directory:)"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "copyPDFToDocuments(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BF980814-F315-46C4-A8A3-6B89491D3D5B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "copyPDFToDocuments(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A4B5708-B26D-4ECE-AB63-7D4CE66A2431"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "copyPDFToDocuments(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D301FA97-535E-48A5-AEA7-D8F95BAE5AA6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "copyPDFToDocuments(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "97E685D5-F843-4BD6-BC1C-B17A418FE945"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "getAllPDFDocuments()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B66FA8B4-E3DB-4FB0-B7C6-4BFD7059BB11"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "getAllPDFDocuments()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "600A99BF-7AE3-4BAB-A08E-0DFA19435073"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PDF Creator/Core/FileManager/FileManagerService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "getAllPDFDocuments()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
