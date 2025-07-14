@@ -66,6 +66,36 @@ final class PDFEditorViewModel: ObservableObject {
     func addToPDFDocuments(from url: URL?) {
         
     }
+    
+    func cameraCompletion(imagesData: [Data]) {
+        guard !imagesData.isEmpty else { return }
+        
+        Task {
+            do {
+                if let metaData = try await self.mergePDFs(imagesData: imagesData) {
+                    self.pdfMetaData = metaData
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func mergePDFs(imagesData: [Data]) async throws -> PDFMetadata? {
+        guard let temporyPDFURLFromImage = try await self.convertToPDF(from: imagesData) else { return nil }
+        
+        print(temporyPDFURLFromImage)
+        
+        guard let pdfAfertMergeURL = try await self.createPDFServcie.mergePDFs(
+            basePDFURL: self.pdfMetaData.url,
+            additionalPDFURL: temporyPDFURLFromImage,
+            directory: self.fileManagerService.getTemporaryDirectory()
+        ) else { return nil }
+        
+        let newModel = try await PDFMetadataService.fetchMetadata(from: pdfAfertMergeURL)
+        
+        return newModel
+    }
 }
 
 extension PDFEditorViewModel {
@@ -77,21 +107,10 @@ extension PDFEditorViewModel {
                 guard !photoItems.isEmpty, let self else { return }
                 Task {
                     do {
-                        guard let temporyPDFURLFromImage = try await self.convertPhotosToPDF() else { return }
-                        
-                        print(temporyPDFURLFromImage)
-
-                        guard let pdfAfertMergeURL = try await self.createPDFServcie.mergePDFs(
-                            basePDFURL: self.pdfMetaData.url,
-                            additionalPDFURL: temporyPDFURLFromImage,
-                            directory: self.fileManagerService.getTemporaryDirectory()
-                        ) else { return }
-                        
-                        print("NewPDFURL: \(pdfAfertMergeURL)")
-                        
-                        let newModel = try await PDFMetadataService.fetchMetadata(from: pdfAfertMergeURL)
-                        
-                        self.pdfMetaData = newModel
+                        let data = try await self.convertPhotosPickerItemToData()
+                        if let metaData = try await self.mergePDFs(imagesData: data) {
+                            self.pdfMetaData = metaData
+                        }
                     } catch {
                         print(error.localizedDescription)
                     }
@@ -119,15 +138,13 @@ extension PDFEditorViewModel {
         }
     }
     
-    private func convertPhotosToPDF() async throws -> URL? {
+    private func convertToPDF(from imageData: [Data]) async throws -> URL? {
         defer {
             resetPhotoItems()
         }
-
-        let data = try await convertPhotosPickerItemToData()
         
         let newTemproaryURL = try await createPDFServcie.createPDFData(
-            from: data,
+            from: imageData,
             displayScale: 1,
             in: fileManagerService.getTemporaryDirectory()
         )

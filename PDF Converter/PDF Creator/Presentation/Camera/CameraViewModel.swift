@@ -24,8 +24,11 @@ class CameraViewModel: ObservableObject {
     private var cancelables = Set<AnyCancellable>()
     private let createPDFServcie: CreatePDFService = .shared
     private let notificationService: NotificationService = .shared
+    private let imageCompletion: ([Data]) -> Void
     
-    init() {
+    init(imageCompletion: @escaping ([Data]) -> Void) {
+        self.imageCompletion = imageCompletion
+        
         // Initialize the session with the cameraManager's session.
         session = cameraManager.session
     }
@@ -97,26 +100,8 @@ class CameraViewModel: ObservableObject {
     func configureCamera() {
         cameraManager.configureCaptureSession()
     }
-}
-
-extension CameraViewModel {
-    func convertPhotos() async {
-        Task {
-            do {
-                defer {
-                    capturedImage = nil
-                    capturedImagesData.removeAll()
-                }
-
-                let url = try await createPDFServcie.createPDFData(
-                    from: capturedImagesData,
-                    displayScale: 1,
-                    in: FileManagerService.shared.getPDFDirectory()
-                )
-                notificationService.post(event: .createPDFURL, object: url)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+    
+    func tapOnConvertButton() {
+        imageCompletion(capturedImagesData)
     }
 }

@@ -70,6 +70,18 @@ final class TabBarViewModel: ObservableObject {
     func uppdateListOfPDFs() {
         notificationService.post(event: .updatePDFList, object: nil as String?)
     }
+    
+    func cameraCompletion(imagesData: [Data]) {
+        Task {
+            do {
+                if let url = try await self.convert(imagesData: imagesData) {
+                    self.notificationService.post(event: .createPDFURL, object: url)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
 extension TabBarViewModel {
@@ -89,24 +101,14 @@ extension TabBarViewModel {
         }
     }
     
-    private func convertPhotos() async {
-        Task {
-            do {
-                defer {
-                    resetPhotoItems()
-                }
-                
-                let data = try await convertPhotosPickerItemToData()
-                let url = try await createPDFServcie.createPDFData(
-                    from: data,
-                    displayScale: 1,
-                    in: FileManagerService.shared.getPDFDirectory()
-                )
-                notificationService.post(event: .createPDFURL, object: url)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+    private func convert(imagesData: [Data]) async throws -> URL? {
+        let url = try await createPDFServcie.createPDFData(
+            from: imagesData,
+            displayScale: 1,
+            in: FileManagerService.shared.getPDFDirectory()
+        )
+        return url
+        
     }
     
     private func setupSubscribers() {
@@ -114,9 +116,21 @@ extension TabBarViewModel {
             .dropFirst()
             .removeDuplicates()
             .sink(receiveValue: { [weak self] photoItems in
-                guard !photoItems.isEmpty else { return }
+                guard !photoItems.isEmpty,
+                      let self else { return }
                 Task {
-                    await self?.convertPhotos()
+                    do {
+                        defer {
+                            self.resetPhotoItems()
+                        }
+                        
+                        let imagesData = try await self.convertPhotosPickerItemToData()
+                        if let url = try await self.convert(imagesData: imagesData) {
+                            self.notificationService.post(event: .createPDFURL, object: url)
+                        }
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
             })
     }

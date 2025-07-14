@@ -2,12 +2,18 @@ import SwiftUICore
 import SwiftUI
 
 struct CameraView: View {
-    @StateObject private var viewModel = CameraViewModel()
+    @StateObject private var viewModel: CameraViewModel
     @EnvironmentObject private var coordinator: Coordinator
     @State private var isFocused = false
     @State private var focusLocation: CGPoint = .zero
     @State private var isScaled = false // To scale the view
     @State private var currentZoomFactor: CGFloat = 1.0
+    
+    init(imageCompletion: @escaping ([Data]) -> Void) {
+        self._viewModel = StateObject(
+            wrappedValue: CameraViewModel(imageCompletion: imageCompletion)
+        )
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -61,13 +67,8 @@ struct CameraView: View {
                             
                             if !viewModel.capturedImagesData.isEmpty {
                                 Button {
-                                    Task {
-                                        await viewModel.convertPhotos()
-                                        
-                                        await MainActor.run {
-                                            coordinator.dismissFullScreenCover()
-                                        }
-                                    }
+                                    viewModel.tapOnConvertButton()
+                                    coordinator.dismissFullScreenCover()
                                 } label: {
                                     Text("Convert (\(viewModel.capturedImagesData.count))")
                                         .font(.system(size: 17, weight: .semibold))
@@ -143,5 +144,5 @@ struct CameraView: View {
 }
 
 #Preview {
-    CameraView()
+    CameraView(imageCompletion: {_ in })
 }

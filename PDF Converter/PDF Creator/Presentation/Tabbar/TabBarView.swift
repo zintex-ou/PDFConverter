@@ -74,7 +74,9 @@ struct TabBarView: View {
         ) {
             Button("Camera") {
                 coordinator.presentFullScreenCover(id: CameraView.navigationID) {
-                    CameraView()
+                    CameraView(imageCompletion: { imagesData in
+                        viewModel.cameraCompletion(imagesData: imagesData)
+                    })
                 }
             }
             

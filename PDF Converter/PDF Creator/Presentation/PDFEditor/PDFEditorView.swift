@@ -42,82 +42,84 @@ struct PDFEditorView: View {
         ) {
             Button("Camera") {
                 coordinator.presentFullScreenCover(id: CameraView.navigationID) {
-                    CameraView()
+                    CameraView(imageCompletion: { imagesData in
+                        viewModel.cameraCompletion(imagesData: imagesData)
+                    })
                 }
             }
-            
-            Button("Gallery") {
-                viewModel.showPhotoPicker()
+                
+                Button("Gallery") {
+                    viewModel.showPhotoPicker()
+                }
             }
+            .photosPicker(
+                isPresented: $viewModel.shouldShowPhotoPicker,
+                selection: $viewModel.photoItems,
+                matching: .images,
+                photoLibrary: .shared()
+            )
+            .animation(.default, value: viewModel.pdfMetaData)
         }
-        .photosPicker(
-            isPresented: $viewModel.shouldShowPhotoPicker,
-            selection: $viewModel.photoItems,
-            matching: .images,
-            photoLibrary: .shared()
-        )
-        .animation(.default, value: viewModel.pdfMetaData)
-    }
-    
-    var navigationView: some View {
-        HStack(spacing: 12) {
-            Button {
-                coordinator.popToBack()
-            } label: {
-                Image(.property1Arrow)
-            }
-            
-            Text(viewModel.pdfMetaData.title ?? "No name")
-                .foregroundStyle(.black)
-                .font(.init(style: .semiBold, size: 16))
-            
-            Spacer()
-            
-            Button {
-                viewModel.tapOnSave {
+        
+        var navigationView: some View {
+            HStack(spacing: 12) {
+                Button {
                     coordinator.popToBack()
+                } label: {
+                    Image(.property1Arrow)
                 }
-            } label: {
-                Text("Save")
+                
+                Text(viewModel.pdfMetaData.title ?? "No name")
+                    .foregroundStyle(.black)
                     .font(.init(style: .semiBold, size: 16))
-                    .foregroundStyle(.white)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 16)
-                    .background(Color(hex: "#D53131"))
-                    .clipShape(Capsule())
-            }
-
-        }
-        .padding(.bottom, 8)
-        .padding(.horizontal, 16)
-        .background(Color(hex: "#FAFAFA"))
-    }
-    
-    var bottomBarView: some View {
-        HStack {
-            ForEach(viewModel.instruments) { instrument in
+                
                 Spacer()
                 
                 Button {
-                    instrument.comletion()
-                } label: {
-                    VStack(spacing: 4) {
-                        Image(instrument.icon)
-                        
-                        Text(instrument.title)
-                            .font(.init(style: .regular, size: 12))
-                            .foregroundStyle(.black)
+                    viewModel.tapOnSave {
+                        coordinator.popToBack()
                     }
+                } label: {
+                    Text("Save")
+                        .font(.init(style: .semiBold, size: 16))
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(Color(hex: "#D53131"))
+                        .clipShape(Capsule())
                 }
                 
-                Spacer()
             }
+            .padding(.bottom, 8)
+            .padding(.horizontal, 16)
+            .background(Color(hex: "#FAFAFA"))
         }
-        .padding(.vertical, 16)
-        .background(Color(hex: "#FAFAFA"))
+        
+        var bottomBarView: some View {
+            HStack {
+                ForEach(viewModel.instruments) { instrument in
+                    Spacer()
+                    
+                    Button {
+                        instrument.comletion()
+                    } label: {
+                        VStack(spacing: 4) {
+                            Image(instrument.icon)
+                            
+                            Text(instrument.title)
+                                .font(.init(style: .regular, size: 12))
+                                .foregroundStyle(.black)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+            }
+            .padding(.vertical, 16)
+            .background(Color(hex: "#FAFAFA"))
+        }
     }
-}
-
-#Preview {
-    PDFEditorView(pdfMetaData: .init(url: URL(string: "")!, creationDate: .now, pageCount: 1))
-}
+    
+    #Preview {
+        PDFEditorView(pdfMetaData: .init(url: URL(string: "")!, creationDate: .now, pageCount: 1))
+    }
