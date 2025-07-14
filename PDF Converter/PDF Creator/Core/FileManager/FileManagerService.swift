@@ -44,6 +44,7 @@ final class FileManagerService {
         return newURL
     }
     
+    @discardableResult
     func copyPDFToDocuments(from sourceURL: URL) async throws -> URL? {
         guard let destinationDirectory = getPDFDirectory() else { return nil }
         let destinationURL = destinationDirectory.appendingPathComponent(sourceURL.lastPathComponent)
@@ -60,5 +61,9 @@ final class FileManagerService {
             print("Failed to copy PDF: \(error)")
             return nil
         }
+    }
+    
+    func getTemporaryDirectory() -> URL {
+        fileManager.temporaryDirectory
     }
 }

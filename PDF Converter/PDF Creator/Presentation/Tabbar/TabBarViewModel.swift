@@ -97,7 +97,11 @@ extension TabBarViewModel {
                 }
                 
                 let data = try await convertPhotosPickerItemToData()
-                let url = try await createPDFServcie.createPDFData(from: data, displayScale: 1)
+                let url = try await createPDFServcie.createPDFData(
+                    from: data,
+                    displayScale: 1,
+                    in: FileManagerService.shared.getPDFDirectory()
+                )
                 notificationService.post(event: .createPDFURL, object: url)
             } catch {
                 print(error.localizedDescription)

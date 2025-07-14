@@ -13,9 +13,16 @@ struct PDFEditorView: View {
             navigationView
             
             ZStack(alignment: .topTrailing) {
+                var pdfURLBinding: Binding<URL> {
+                    Binding(
+                        get: { self.viewModel.pdfMetaData.url },
+                        set: { self.viewModel.pdfMetaData.url = $0 }
+                    )
+                }
+                
                 PDFReader(
                     currentPage: $viewModel.currentPage,
-                    url: viewModel.pdfMetaData.url
+                    url: pdfURLBinding
                 )
                 
                 Text("\(viewModel.currentPage + 1)/\(viewModel.pdfMetaData.pageCount)")
@@ -42,10 +49,6 @@ struct PDFEditorView: View {
             Button("Gallery") {
                 viewModel.showPhotoPicker()
             }
-            
-            Button("PDF File") {
-                viewModel.showDocumentPicker()
-            }
         }
         .photosPicker(
             isPresented: $viewModel.shouldShowPhotoPicker,
@@ -53,20 +56,7 @@ struct PDFEditorView: View {
             matching: .images,
             photoLibrary: .shared()
         )
-        .fileImporter(
-            isPresented: $viewModel.shouldShowDocumentPicker,
-            allowedContentTypes: [
-                .pdf
-            ]
-        ) { result in
-            switch result {
-            case .success(let url):
-                _ = url.startAccessingSecurityScopedResource()
-                viewModel.addToPDFDocuments(from: url)
-            case .failure:
-                break
-            }
-        }
+        .animation(.default, value: viewModel.pdfMetaData)
     }
     
     var navigationView: some View {
@@ -82,6 +72,21 @@ struct PDFEditorView: View {
                 .font(.init(style: .semiBold, size: 16))
             
             Spacer()
+            
+            Button {
+                viewModel.tapOnSave {
+                    coordinator.popToBack()
+                }
+            } label: {
+                Text("Save")
+                    .font(.init(style: .semiBold, size: 16))
+                    .foregroundStyle(.white)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(Color(hex: "#D53131"))
+                    .clipShape(Capsule())
+            }
+
         }
         .padding(.bottom, 8)
         .padding(.horizontal, 16)

@@ -4,12 +4,15 @@ import PDFKit
 
 struct PDFReader: UIViewRepresentable {
     @Binding var currentPage: Int
-    private let url: URL
+    @Binding var url: URL
     private let pdfView = PDFView()
     
-    init(currentPage: Binding<Int>, url: URL) {
+    init(
+        currentPage: Binding<Int>,
+        url: Binding<URL>
+    ) {
         self._currentPage = currentPage
-        self.url = url
+        self._url = url
     }
     
     func makeUIView(context: Context) -> PDFView {
@@ -44,6 +47,10 @@ struct PDFReader: UIViewRepresentable {
     func updateUIView(_ pdfView: PDFView, context: Context) {
         pdfView.scrollView?.showsVerticalScrollIndicator = false
         pdfView.scrollView?.showsHorizontalScrollIndicator = false
+
+        if pdfView.document?.documentURL != url {
+            pdfView.document = PDFDocument(url: url)
+        }
     }
     
     class Coordinator {

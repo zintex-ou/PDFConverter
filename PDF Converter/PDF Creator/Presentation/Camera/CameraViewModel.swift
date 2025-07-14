@@ -107,8 +107,12 @@ extension CameraViewModel {
                     capturedImage = nil
                     capturedImagesData.removeAll()
                 }
-                
-                let url = try await createPDFServcie.createPDFData(from: capturedImagesData, displayScale: 1)
+
+                let url = try await createPDFServcie.createPDFData(
+                    from: capturedImagesData,
+                    displayScale: 1,
+                    in: FileManagerService.shared.getPDFDirectory()
+                )
                 notificationService.post(event: .createPDFURL, object: url)
             } catch {
                 print(error.localizedDescription)

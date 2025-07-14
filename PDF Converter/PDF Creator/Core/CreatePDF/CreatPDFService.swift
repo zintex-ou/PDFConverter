@@ -1,4 +1,5 @@
 import Foundation
+import PDFKit
 import SwiftUICore
 import _PhotosUI_SwiftUI
 import SwiftUI
@@ -22,7 +23,7 @@ final class CreatePDFService {
     
     private init() {}
     
-    func createPDFData(from imagesData: [Data], displayScale: CGFloat) async throws -> URL? {
+    func createPDFData(from imagesData: [Data], displayScale: CGFloat, in directory: URL?) async throws -> URL? {
         
         let format = UIGraphicsPDFRendererFormat()
         format.documentInfo = metaData as [String: Any]
@@ -30,7 +31,7 @@ final class CreatePDFService {
         let date = Date()
         
         let fileName = "PDF_\(date.timeIntervalSince1970).pdf"
-        guard let documentsDirectory = FileManagerService.shared.getPDFDirectory() else {
+        guard let documentsDirectory = directory else {
             print("Failed to create documents directory")
             return nil
         }
@@ -46,6 +47,38 @@ final class CreatePDFService {
                     uiImage.draw(at: .zero)
                 }
             }
+        }
+        
+        return fileURL
+    }
+    
+    func mergePDFs(
+        basePDFURL: URL,
+        additionalPDFURL: URL,
+        directory: URL
+    ) async throws -> URL? {
+        guard let basePDF = PDFDocument(url: basePDFURL) else {
+            return nil
+        }
+        
+        guard let additionalPDF = PDFDocument(url: additionalPDFURL) else {
+            return nil
+        }
+        
+        let basePageCount = basePDF.pageCount
+        
+        for i in 0..<additionalPDF.pageCount {
+            if let page = additionalPDF.page(at: i) {
+                basePDF.insert(page, at: basePageCount + i)
+            }
+        }
+        
+        let date = Date()
+        let fileName = "PDF_\(date.timeIntervalSince1970).pdf"
+        let fileURL = directory.appendingPathComponent(fileName)
+        
+        guard basePDF.write(to: fileURL) else {
+            return nil
         }
         
         return fileURL

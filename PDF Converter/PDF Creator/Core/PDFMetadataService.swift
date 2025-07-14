@@ -1,7 +1,7 @@
 import Foundation
 import PDFKit
 
-struct PDFMetadata: Identifiable {
+struct PDFMetadata: Identifiable, Equatable {
     let id = UUID()
     var title: String?
     var url: URL
