@@ -13,6 +13,27 @@ struct TabBarView: View {
                     .font(.init(style: .semiBold, size: 24))
                 
                 Spacer()
+                
+                if !viewModel.isSubscribed {
+                    Button {
+                        coordinator.presentFullScreenCover(id: PaywallView.navigationID) {
+                            PaywallView()
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(.illustartion)
+                            
+                            Text("PRO")
+                                .foregroundStyle(.white)
+                                .font(.init(style: .semiBold, size: 16))
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 12.5)
+                        .background(Color(hex: "#D53131"))
+                        .clipShape(Capsule())
+                    }
+                    
+                }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 8)

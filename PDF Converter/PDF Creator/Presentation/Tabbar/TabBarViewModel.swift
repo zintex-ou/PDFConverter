@@ -11,12 +11,14 @@ final class TabBarViewModel: ObservableObject {
     @Published var shouldShowDocumentPicker: Bool = false
     @Published var photoItems: [PhotosPickerItem] = []
     @Published var shouldShowPreviewController: Bool = false
+    @Published var isSubscribed: Bool = false
     
     private let fileManagerService: FileManagerService = .shared
     private(set) var tabBarPages: [TabbarPage] = []
     private let createPDFServcie: PDFService = .shared
     private let notificationService: NotificationService = .shared
-    private var cancellable: AnyCancellable?
+    private let subscriptionService = SubscriptionService.shared
+    private var cancellables = Set<AnyCancellable>()
     private(set) var selectedFileURL: URL?
     
     init() {
@@ -112,7 +114,14 @@ extension TabBarViewModel {
     }
     
     private func setupSubscribers() {
-        cancellable = $photoItems
+        subscriptionService.$isSubscribed
+            .receive(on: RunLoop.main)
+            .sink { [weak self] value in
+                self?.isSubscribed = value
+            }
+            .store(in: &cancellables)
+        
+        $photoItems
             .dropFirst()
             .removeDuplicates()
             .sink(receiveValue: { [weak self] photoItems in
@@ -133,5 +142,6 @@ extension TabBarViewModel {
                     }
                 }
             })
+            .store(in: &cancellables)
     }
 }
