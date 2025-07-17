@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 struct SplashScreenView: View {
     @AppStorage(Constants.isOnboardingCompleted) var isOnboardingCompleted: Bool = false
     @EnvironmentObject private var coordinator: Coordinator
@@ -14,15 +15,19 @@ struct SplashScreenView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onAppear {
-            if isOnboardingCompleted {
-                viewModel.changeViewControllres(count: 2)
-                coordinator.pushTo(id: TabBarView.navigationID) {
-                    TabBarView()
-                }
-            } else {
-                viewModel.changeViewControllres(count: 3)
-                coordinator.pushTo(id: OnboardingView.navigationID) {
-                    OnboardingView()
+            Task {
+                try await viewModel.fetchConfig()
+                
+                if isOnboardingCompleted {
+                    viewModel.changeViewControllres(count: 2)
+                    coordinator.pushTo(id: TabBarView.navigationID) {
+                        TabBarView()
+                    }
+                } else {
+                    viewModel.changeViewControllres(count: 3)
+                    coordinator.pushTo(id: OnboardingView.navigationID) {
+                        OnboardingView()
+                    }
                 }
             }
         }

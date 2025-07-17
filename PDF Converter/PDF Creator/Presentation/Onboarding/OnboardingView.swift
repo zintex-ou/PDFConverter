@@ -12,6 +12,19 @@ struct OnboardingView: View {
             Image(page.image)
                 .resizable()
                 .ignoresSafeArea()
+                .overlay(alignment: .topTrailing) {
+                    if viewModel.crossVisibleButton {
+                        Button {
+                            finishedOnboarding()
+                        } label: {
+                            Image(.property1Cross)
+                                .renderingMode(.template)
+                                .foregroundStyle(Color(hex: "#686868").opacity(0.5))
+                                .padding(.trailing, 16)
+                        }
+                        .opacity(viewModel.getCrossButtonOpacity())
+                    }
+                }
             
             VStack(spacing: .zero) {
                 Text(page.title)
@@ -32,26 +45,70 @@ struct OnboardingView: View {
                             .fill(isSelected ? Color(hex: "#D53131") : Color(hex: "#D53131").opacity(0.3))
                             .frame(width: isSelected ? 36 : 6, height: 6)
                     }
+                    
+                    Capsule()
+                        .fill(Color(hex: "#D53131").opacity(0.3))
+                        .frame(width: 6, height: 6)
                 }
                 .padding(.top, 16)
                 
-                Button("Continue", action: {
+                Button(viewModel.getContinueButtonText(), action: {
                     withAnimation {
                         viewModel.tapOnContinue {
-                            isOnboardingCompleted = true
-                            coordinator.pushTo(id: TabBarView.navigationID) {
-                                TabBarView()
-                            }
+                            finishedOnboarding()
                         }
                     }
                 })
                 .scaleAnimation()
                 .buttonStyle(.main)
                 .padding(.top, 16)
+                
+                HStack {
+                    Text("By continuing, you agree to")
+                    
+                    Spacer()
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("Policy")
+                    }
+
+                    Spacer()
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("Terms")
+                    }
+                    
+                    Spacer()
+                    
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("Restore")
+                    }
+                }
+                .foregroundStyle(Color(hex: "#686868"))
+                .font(.init(style: .regular, size: 12))
+                .padding(.top, 17)
+                .opacity(viewModel.shouldShowPrivacyView() ? 1 : 0)
             }
             .padding(.horizontal, 16)
             .background(.white)
             .multilineTextAlignment(.center)
+        }
+        .onChange(of: viewModel.currentIndex) {_ in
+            viewModel.shouldShowCrossButton()
+        }
+    }
+    
+    private func finishedOnboarding() {
+        isOnboardingCompleted = true
+        coordinator.pushTo(id: TabBarView.navigationID) {
+            TabBarView()
         }
     }
 }

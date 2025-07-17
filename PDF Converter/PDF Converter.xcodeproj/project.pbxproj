@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 7C2876FD2E1D3FF1001FA713 /* KeychainAccess */; };
 		7C287C5C2E1FE4BB001FA713 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7C287C5B2E1FE4BB001FA713 /* ZIPFoundation */; };
+		7C50C74C2E28EE8C0041F069 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 7C50C74B2E28EE8C0041F069 /* FirebaseRemoteConfig */; };
 		7C7442D62E2139E5008634FE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7442D52E2139E5008634FE /* FirebaseAnalytics */; };
 		7C7442D82E2139E5008634FE /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7442D72E2139E5008634FE /* FirebaseAnalyticsCore */; };
 		7C7442DA2E2139E5008634FE /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7442D92E2139E5008634FE /* FirebaseCore */; };
@@ -34,6 +35,7 @@
 				7C2876FE2E1D3FF1001FA713 /* KeychainAccess in Frameworks */,
 				7C7442DA2E2139E5008634FE /* FirebaseCore in Frameworks */,
 				7C287C5C2E1FE4BB001FA713 /* ZIPFoundation in Frameworks */,
+				7C50C74C2E28EE8C0041F069 /* FirebaseRemoteConfig in Frameworks */,
 				7C7442D62E2139E5008634FE /* FirebaseAnalytics in Frameworks */,
 				7C7442D82E2139E5008634FE /* FirebaseAnalyticsCore in Frameworks */,
 			);
@@ -42,10 +44,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C50C74A2E28EE8C0041F069 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7CA2B62A2E154EBD00B02792 = {
 			isa = PBXGroup;
 			children = (
 				7CA2B6352E154EBD00B02792 /* PDF Creator */,
+				7C50C74A2E28EE8C0041F069 /* Frameworks */,
 				7CA2B6342E154EBD00B02792 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,6 +93,7 @@
 				7C7442D52E2139E5008634FE /* FirebaseAnalytics */,
 				7C7442D72E2139E5008634FE /* FirebaseAnalyticsCore */,
 				7C7442D92E2139E5008634FE /* FirebaseCore */,
+				7C50C74B2E28EE8C0041F069 /* FirebaseRemoteConfig */,
 			);
 			productName = "PDF Converter";
 			productReference = 7CA2B6332E154EBD00B02792 /* PDF Converter.app */;
@@ -414,6 +425,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C287C5A2E1FE4BB001FA713 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
 			productName = ZIPFoundation;
+		};
+		7C50C74B2E28EE8C0041F069 /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C7442D42E2139E5008634FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
 		};
 		7C7442D52E2139E5008634FE /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
