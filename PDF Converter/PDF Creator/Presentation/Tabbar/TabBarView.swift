@@ -56,7 +56,13 @@ struct TabBarView: View {
                     Spacer()
                     
                     Button {
-                        viewModel.select(tab: model.tab)
+                        if model.tab == .scan, !viewModel.isSubscribed {
+                            coordinator.presentFullScreenCover(id: PaywallView.navigationID) {
+                                PaywallView()
+                            }
+                        } else {
+                            viewModel.select(tab: model.tab)
+                        }
                     } label: {
                         VStack(spacing: 4) {
                             if model.tab == .scan {
