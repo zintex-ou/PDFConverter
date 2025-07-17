@@ -30,8 +30,8 @@ final class OnboardingViewModel: ObservableObject {
     
     func shouldShowCrossButton() {
         if currentIndex == pages.count - 1 {
-            let second = remoteConfigManager.config.paywallConfig.opacityCloseButton
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(second))) {
+            let second = remoteConfigManager.config.paywallConfig.closeActionDuration
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(second)) {
                 self.crossVisibleButton = true
             }
         }
