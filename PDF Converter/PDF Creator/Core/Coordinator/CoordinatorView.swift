@@ -7,6 +7,7 @@ struct CoordinatorView: View {
     @Environment(\.scenePhase) private var scenePhase
     
     private let remoteConfigManager: RemoteConfigManager = .shared
+    private let subscriptionService = SubscriptionService.shared
     
     var body: some View {
         NavigationStack(path: $coordinator.path) {
@@ -20,18 +21,18 @@ struct CoordinatorView: View {
                         .navigationBarBackButtonHidden(true)
                 }
                 .onChange(of: scenePhase, perform: { newPhase in
-//                    if newPhase == .active,
-//                       isOnboardingCompleted
-//                    //                       !purchaseManager.isActivityPurchases()
-//                    {
-//                        Task {
-//                            try await fetchConfig()
-//                            
-//                            coordinator.presentFullScreenCover(id: PaywallView.navigationID) {
-//                                PaywallView()
-//                            }
-//                        }
-//                    }
+                    if newPhase == .active,
+                       isOnboardingCompleted,
+                        !subscriptionService.isActivityPurchases()
+                    {
+                        Task {
+                            try await fetchConfig()
+                            
+                            coordinator.presentFullScreenCover(id: PaywallView.navigationID) {
+                                PaywallView()
+                            }
+                        }
+                    }
                 })
         }
         .environmentObject(coordinator)

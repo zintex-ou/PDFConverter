@@ -20,7 +20,7 @@ struct RemoteConfigModel: Codable, Equatable {
         .init(
             paywallConfig: PaywallConfig(
                 closeActionDuration: 0,
-                opacityCloseButton: 0.8,
+                opacityCloseButton: 0.5,
                 showAlertAfterCanceledPurchase: false,
                 showPriceTitle: true
             ),

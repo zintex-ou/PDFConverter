@@ -19,7 +19,7 @@ struct OnboardingView: View {
                         } label: {
                             Image(.property1Cross)
                                 .renderingMode(.template)
-                                .foregroundStyle(Color(hex: "#686868").opacity(0.5))
+                                .foregroundStyle(Color(hex: "#686868"))
                                 .padding(.trailing, 16)
                         }
                         .opacity(viewModel.getCrossButtonOpacity())
@@ -69,24 +69,25 @@ struct OnboardingView: View {
                     Spacer()
                     
                     Button {
-                        
+                        viewModel.tapOnPrivacyButton()
                     } label: {
                         Text("Policy")
                     }
-
+                    
                     Spacer()
                     
                     Button {
-                        
+                        viewModel.tapOnTermsButton()
                     } label: {
                         Text("Terms")
                     }
                     
                     Spacer()
                     
-                    
                     Button {
-                        
+                        viewModel.tapOnRestore {
+                            finishedOnboarding()
+                        }
                     } label: {
                         Text("Restore")
                     }
@@ -99,10 +100,34 @@ struct OnboardingView: View {
             .padding(.horizontal, 16)
             .background(.white)
             .multilineTextAlignment(.center)
+            
+            if viewModel.isLoading {
+                LoadingView()
+            }
         }
-        .onChange(of: viewModel.currentIndex) {_ in
-            viewModel.shouldShowCrossButton()
+        .alert(viewModel.alertContent.title, isPresented: $viewModel.shouldShowAlert, actions: {
+            
+        }, message: {
+            Text(viewModel.alertContent.subTitle)
+        })
+        .alert(
+            viewModel.alertContent.title,
+            isPresented: $viewModel.shouldShowTryAgainAlert)
+        {
+            Button("Cancel", role: .cancel) {}
+            
+            Button {
+                viewModel.makePurchase {
+                    finishedOnboarding()
+                }
+            } label: {
+                Text("Try again")
+            }
+            
+        } message: {
+            Text(viewModel.alertContent.subTitle)
         }
+        .animation(.default, value: viewModel.isLoading)
     }
     
     private func finishedOnboarding() {

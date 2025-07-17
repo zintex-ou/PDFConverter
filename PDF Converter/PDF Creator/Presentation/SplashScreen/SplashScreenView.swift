@@ -16,7 +16,10 @@ struct SplashScreenView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onAppear {
             Task {
-                try await viewModel.fetchConfig()
+                async let config = viewModel.fetchConfig()
+                async let adapty = viewModel.startAdaptySubscription()
+
+                let _ = await (config, adapty)
                 
                 if isOnboardingCompleted {
                     viewModel.changeViewControllres(count: 2)

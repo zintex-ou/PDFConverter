@@ -1,5 +1,5 @@
 {
-  "originHash" : "39beb8d2ebdd4d7b75607b32e82e1ea8eeb9539b1bf606084964a586432a0533",
+  "originHash" : "168e9aa1ea0e99a4eb31ea0f0576e9a67be877f2562e6625f1d4ea552bd96118",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "bbe8b69694d7873315fd3a4ad41efe043e1c07c5",
         "version" : "1.2024072200.0"
+      }
+    },
+    {
+      "identity" : "adaptysdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adaptyteam/AdaptySDK-iOS",
+      "state" : {
+        "revision" : "ddd77e88f5f7a727ad0507276ea3b3015d462960",
+        "version" : "3.8.2"
       }
     },
     {
@@ -125,6 +134,15 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "reachability.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ashleymills/Reachability.swift",
+      "state" : {
+        "branch" : "master",
+        "revision" : "21d1dc412cfecbe6e34f1f4c4eb88d3f912654a6"
       }
     },
     {

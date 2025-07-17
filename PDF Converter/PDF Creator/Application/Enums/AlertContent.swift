@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-enum ErrorContent: Error {
+enum AlertContent: Error, Equatable {
     
     case raw(title: LocalizedStringKey, subTitle: LocalizedStringKey)
     
