@@ -1,54 +1,242 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "CFBundleDisplayName" : {
-      "comment" : "Bundle display name",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "PDF Convert"
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "CFBundleDisplayName": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "value": "PDF Convert",
+            "state": "translated"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "value": "PDF konvertieren",
+            "state": "translated"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "value": "Conversión de PDF",
+            "state": "translated"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "value": "Convertir un PDF",
+            "state": "translated"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "value": "Convertire PDF",
+            "state": "translated"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "value": "Conversão de PDF",
+            "state": "translated"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "value": "PDF Convert",
+            "state": "translated"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "value": "PDF Convert",
+            "state": "translated"
+          }
+        },
+        "en-US": {
+          "stringUnit": {
+            "value": "PDF Convert",
+            "state": "translated"
           }
         }
       }
     },
-    "CFBundleName" : {
-      "comment" : "Bundle name",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "PDF Converter"
+    "CFBundleName": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "value": "PDF Converter",
+            "state": "translated"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "value": "PDF-Konverter",
+            "state": "translated"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "value": "Convertidor de PDF",
+            "state": "translated"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "value": "Convertisseur PDF",
+            "state": "translated"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "value": "Convertitore PDF",
+            "state": "translated"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "value": "Conversor de PDF",
+            "state": "translated"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "value": "PDF Converter",
+            "state": "translated"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "value": "PDF Converter",
+            "state": "translated"
+          }
+        },
+        "en-US": {
+          "stringUnit": {
+            "value": "PDF Converter",
+            "state": "translated"
           }
         }
       }
     },
-    "NSCameraUsageDescription" : {
-      "comment" : "Privacy - Camera Usage Description",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "This app requires access to the camera to scan and create images into PDF documents."
+    "NSCameraUsageDescription": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "value": "Diese App benötigt Zugriff auf die Kamera, um Bilder zu scannen und in PDF-Dokumenten zu erstellen.",
+            "state": "translated"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "value": "Esta aplicación requiere acceso a la cámara para escanear y crear imágenes en documentos PDF.",
+            "state": "translated"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "value": "Cette application nécessite l'accès à l'appareil photo pour numériser et créer des images dans des documents PDF.",
+            "state": "translated"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "value": "Questa app richiede l'accesso alla fotocamera per scansionare e creare immagini in documenti PDF.",
+            "state": "translated"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "value": "Este aplicativo requer acesso à câmera para digitalizar e criar imagens em documentos PDF.",
+            "state": "translated"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
+          }
+        },
+        "en-US": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
           }
         }
       }
     },
-    "NSPhotoLibraryUsageDescription" : {
-      "comment" : "Privacy - Photo Library Usage Description",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "This app requires access to the camera to scan and create images into PDF documents."
+    "NSPhotoLibraryUsageDescription": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "value": "Diese App benötigt Zugriff auf die Kamera, um Bilder zu scannen und in PDF-Dokumenten zu erstellen.",
+            "state": "translated"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "value": "Esta aplicación requiere acceso a la cámara para escanear y crear imágenes en documentos PDF.",
+            "state": "translated"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "value": "Cette application nécessite l'accès à l'appareil photo pour numériser et créer des images dans des documents PDF.",
+            "state": "translated"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "value": "Questa app richiede l'accesso alla fotocamera per scansionare e creare immagini in documenti PDF.",
+            "state": "translated"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "value": "Este aplicativo requer acesso à câmera para digitalizar e criar imagens em documentos PDF.",
+            "state": "translated"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
+          }
+        },
+        "en-US": {
+          "stringUnit": {
+            "value": "This app requires access to the camera to scan and create images into PDF documents.",
+            "state": "translated"
           }
         }
       }
     }
-  },
-  "version" : "1.0"
+  }
 }
