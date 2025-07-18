@@ -126,6 +126,9 @@
 			knownRegions = (
 				en,
 				Base,
+				"en-AU",
+				"en-US",
+				"en-CA",
 			);
 			mainGroup = 7CA2B62A2E154EBD00B02792;
 			minimizedProjectReferenceProxies = 1;
