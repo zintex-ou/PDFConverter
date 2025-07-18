@@ -102,7 +102,7 @@ struct HomeView: View {
                 Text("No Files Yet")
                     .font(.init(style: .semiBold, size: 16))
                 
-                Text("Your created files will appear here")
+                Text("Your converted files will appear here")
                     .font(.init(style: .regular, size: 16))
             }
             .foregroundStyle(.black)

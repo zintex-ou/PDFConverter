@@ -29,7 +29,7 @@ struct PDFPageView: View {
                 } else {
                     RoundedRectangle(cornerRadius: 6.4)
                         .fill(Color(red: 0.93, green: 0.93, blue: 0.93))
-                        .frame(width: size.width, height: size.height)
+                        .frame(maxWidth: size.width, maxHeight: size.height)
                 }
         }
         .overlay(

@@ -133,7 +133,9 @@ extension OnboardingViewModel {
                 
                 switch index {
                 case 1:
-                    UIApplication.shared.askRateApp()
+                    if remoteConfigManager.config.enabledAppRatingRequest {
+                        UIApplication.shared.askRateApp()
+                    }
                 case pages.count - 1:
                     self.fetchProduct()
                     self.shouldShowCrossButton()
@@ -158,7 +160,7 @@ extension OnboardingViewModel {
                         
                         self.pages[lastPageIndex] = OnboardingPage(
                             image: .BG_5,
-                            title: "Unlock advanced creation!",
+                            title: "Enjoy unlimited conversions!",
                             subtitle: "Unlock full PDF power with \(badge), then \(price) per \(period)"
                         )
                     }

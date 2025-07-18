@@ -4,11 +4,12 @@ import UniformTypeIdentifiers
 struct TabBarView: View {
     @StateObject var viewModel = TabBarViewModel()
     @EnvironmentObject private var coordinator: Coordinator
+    @AppStorage(Constants.freeConvertingsEnabled) var freeConvertingsEnabled: Bool = true
     
     var body: some View {
         VStack(spacing: .zero) {
             HStack {
-                Text("PDF Creator")
+                Text(viewModel.selectedTab == .settings ? "Settings" : "PDF Converter")
                     .foregroundStyle(.black)
                     .font(.init(style: .semiBold, size: 24))
                 
@@ -56,7 +57,7 @@ struct TabBarView: View {
                     Spacer()
                     
                     Button {
-                        if model.tab == .scan, !viewModel.isSubscribed {
+                        if model.tab == .scan, !viewModel.isSubscribed, !freeConvertingsEnabled {
                             coordinator.presentFullScreenCover(id: PaywallView.navigationID) {
                                 PaywallView()
                             }

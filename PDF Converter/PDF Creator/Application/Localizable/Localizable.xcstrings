@@ -1,0 +1,443 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@/%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@/%2$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld pages" : {
+
+    },
+    "%lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Activate Once Error" : {
+
+    },
+    "Add page" : {
+
+    },
+    "Alert Title!" : {
+
+    },
+    "An incorrect parameter was passed." : {
+
+    },
+    "An unexpected error occurred." : {
+
+    },
+    "Analytics Disabled" : {
+
+    },
+    "Application doesn't have all permissions to use camera, please change privacy settings." : {
+
+    },
+    "Bad Connection" : {
+
+    },
+    "Bad Request" : {
+
+    },
+    "By continuing, you agree to" : {
+
+    },
+    "By continuing, you agree to:" : {
+
+    },
+    "Camera" : {
+
+    },
+    "Can't find a valid receipt." : {
+
+    },
+    "Can't Make Payments" : {
+
+    },
+    "Can't Read Receipt" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Cloud Service Revoked" : {
+
+    },
+    "Contact us" : {
+
+    },
+    "Continue" : {
+
+    },
+    "Convert (%lld)" : {
+
+    },
+    "Convert files in seconds!" : {
+
+    },
+    "Copy" : {
+
+    },
+    "Data is unsupported." : {
+
+    },
+    "Decoding Failed" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Encoding Failed" : {
+
+    },
+    "Enjoy unlimited conversions!" : {
+
+    },
+    "Enter channel name" : {
+
+    },
+    "Error" : {
+
+    },
+    "Extract text" : {
+
+    },
+    "Extract text with ease!" : {
+
+    },
+    "Failed to encode parameters for the request." : {
+
+    },
+    "Fetch Failed" : {
+
+    },
+    "Fetch Timeout Error" : {
+
+    },
+    "Files" : {
+
+    },
+    "Full access to all features" : {
+
+    },
+    "Gallery" : {
+
+    },
+    "Get Premium and get maximum\nopportunities" : {
+
+    },
+    "Go to settings" : {
+
+    },
+    "In-App Purchases are not allowed on this device." : {
+
+    },
+    "Invalid Offer Identifier" : {
+
+    },
+    "Invalid Offer Price" : {
+
+    },
+    "Invalid Signature" : {
+
+    },
+    "It is not possible to call the .activate method more than once." : {
+
+    },
+    "Leave a review and help us make the application even more customized" : {
+
+    },
+    "Limited offer" : {
+
+    },
+    "Missing Offer Params" : {
+
+    },
+    "No active subscription" : {
+
+    },
+    "No Files Yet" : {
+
+    },
+    "No In-App Purchase product identifiers were found." : {
+
+    },
+    "No Product IDs Found" : {
+
+    },
+    "Not Activated" : {
+
+    },
+    "Ok" : {
+
+    },
+    "One of the payment details was not recognized." : {
+
+    },
+    "Ooops..." : {
+
+    },
+    "Operation Interrupted" : {
+
+    },
+    "Payment Cancelled" : {
+
+    },
+    "Payment Invalid" : {
+
+    },
+    "Payment Not Allowed" : {
+
+    },
+    "PDF Converter" : {
+
+    },
+    "Permission Denied" : {
+
+    },
+    "Permission to use this cloud service has been revoked." : {
+
+    },
+    "Please, turn on the internet to get full access to the features" : {
+
+    },
+    "Policy" : {
+
+    },
+    "Press and hold on page to reorder" : {
+
+    },
+    "Print" : {
+
+    },
+    "Privacy Acknowledgement Required" : {
+
+    },
+    "Privacy policy" : {
+
+    },
+    "PRO" : {
+
+    },
+    "Product Not Available" : {
+
+    },
+    "Product not found" : {
+
+    },
+    "Product Purchase Failed" : {
+
+    },
+    "Product purchase failed." : {
+
+    },
+    "Product Request Failed" : {
+
+    },
+    "Profile Was Changed" : {
+
+    },
+    "Quickly turn documents, images, and more into high-quality PDFs" : {
+
+    },
+    "Rate app" : {
+
+    },
+    "Refresh Receipt Failed" : {
+
+    },
+    "Refresh receipt failed." : {
+
+    },
+    "Rename" : {
+
+    },
+    "Reorder" : {
+
+    },
+    "Restore" : {
+
+    },
+    "Restore purchase" : {
+
+    },
+    "Save" : {
+
+    },
+    "Scan & Convert instantly!" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Share" : {
+
+    },
+    "Share app" : {
+
+    },
+    "Some parameters are missing in a payment discount." : {
+
+    },
+    "Something went wrong.\nPlease try again." : {
+
+    },
+    "Subscribe for %@/%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Subscribe for %1$@/%2$@ %3$@"
+          }
+        }
+      }
+    },
+    "Subscription Restored" : {
+
+    },
+    "Terms" : {
+
+    },
+    "Terms of use" : {
+
+    },
+    "Text copied!" : {
+
+    },
+    "The app is attempting to use unauthorized data." : {
+
+    },
+    "The item you requested is not available in the store." : {
+
+    },
+    "The offer identifier is invalid." : {
+
+    },
+    "The price specified in App Store Connect is no longer valid." : {
+
+    },
+    "The request made is not valid." : {
+
+    },
+    "The signature in a payment discount is not valid." : {
+
+    },
+    "The user profile was changed during the operation." : {
+
+    },
+    "This operation was interrupted by the system." : {
+
+    },
+    "Timeout error." : {
+
+    },
+    "Try again" : {
+
+    },
+    "Turn images and PDF into editable text\nin an instant" : {
+
+    },
+    "Unable to fetch available In-App Purchase products at the moment." : {
+
+    },
+    "Unable to fetch subscription status. Please try again later." : {
+
+    },
+    "Unable to understand the response received." : {
+
+    },
+    "Unauthorized Request Data" : {
+
+    },
+    "Unlock full PDF power with %@, then %@ per %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock full PDF power with %1$@, then %2$@ per %3$@"
+          }
+        }
+      }
+    },
+    "Unlock full PDF power with 3-days Trial, then $6,99 per week" : {
+
+    },
+    "Unsupported Data" : {
+
+    },
+    "Upgrade" : {
+
+    },
+    "Use your camera to scan paper documents and convert them into PDFs with just one tap" : {
+
+    },
+    "Warning" : {
+
+    },
+    "We can't handle analytics events since you've opted out." : {
+
+    },
+    "We value your feedback!" : {
+
+    },
+    "With 3 days trial, then %@/%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "With 3 days trial, then %1$@/%2$@"
+          }
+        }
+      }
+    },
+    "Wrong Param" : {
+
+    },
+    "You are not allowed to perform this action." : {
+
+    },
+    "You are not authorized to make payments." : {
+
+    },
+    "You have no active subscriptions, please check your subscription status." : {
+
+    },
+    "You haven't allowed access to Cloud service information." : {
+
+    },
+    "You need to acknowledge Apple’s privacy policy for Apple Music." : {
+
+    },
+    "You need to be authenticated to perform requests." : {
+
+    },
+    "Your converted files will appear here" : {
+
+    },
+    "Your payment request was canceled." : {
+
+    },
+    "Your subscription has been successfully restored. Enjoy full access to all features." : {
+
+    }
+  },
+  "version" : "1.0"
+}

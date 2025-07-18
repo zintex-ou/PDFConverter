@@ -5,6 +5,7 @@ import Combine
 
 @MainActor
 final class TabBarViewModel: ObservableObject {
+    @AppStorage(Constants.freeConvertingsEnabled) var freeConvertingsEnabled: Bool = true
     @Published var selectedTab: TabBarItem = .home
     @Published var shouldShowScan: Bool = false
     @Published var shouldShowPhotoPicker: Bool = false
@@ -62,6 +63,7 @@ final class TabBarViewModel: ObservableObject {
             do {
                 if let newURL = try await fileManagerService.copyPDFToDocuments(from: url) {
                     notificationService.post(event: .createPDFURL, object: newURL)
+                    freeConvertingsEnabled = false
                 }
             } catch {
                 
@@ -109,8 +111,10 @@ extension TabBarViewModel {
             displayScale: 1,
             in: FileManagerService.shared.getPDFDirectory()
         )
-        return url
         
+        freeConvertingsEnabled = false
+        
+        return url
     }
     
     private func setupSubscribers() {
