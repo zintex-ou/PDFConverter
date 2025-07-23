@@ -6,6 +6,10 @@ struct TabBarView: View {
     @EnvironmentObject private var coordinator: Coordinator
     @AppStorage(Constants.freeConvertingsEnabled) var freeConvertingsEnabled: Bool = true
     
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
+    
     var body: some View {
         VStack(spacing: .zero) {
             HStack {

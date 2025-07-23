@@ -62,12 +62,6 @@ final class OnboardingViewModel: ObservableObject {
     }
     
     func makePurchase(completion: @escaping () -> Void) {
-        self.isLoading = true
-        
-        defer {
-            self.isLoading = false
-        }
-        
         guard reachibility?.connection != .unavailable else {
             alertContent = .raw(title: "Bad Connection", subTitle: "Please, turn on the internet to get full access to the features")
             self.shouldShowAlert = true
@@ -81,6 +75,12 @@ final class OnboardingViewModel: ObservableObject {
         }
         
         Task {
+            self.isLoading = true
+            
+            defer {
+                self.isLoading = false
+            }
+            
             if let result = await subscriptionService.makePurchase(for: weeklyProduct.id) {
                 
                 switch result {

@@ -1945,6 +1945,9 @@
         }
       }
     },
+    "Not found text" : {
+
+    },
     "Ok" : {
       "localizations" : {
         "de" : {
@@ -3981,6 +3984,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sblocca tutta la potenza dei PDF con una versione di prova di 3 giorni, poi $6,99 a settimana"
+          }
+        }
+      }
+    },
+    "Unlock full PDF power, then %@ per %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock full PDF power, then %1$@ per %2$@"
           }
         }
       }

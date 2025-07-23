@@ -29,11 +29,13 @@ struct PaywallView: View {
                         .foregroundStyle(.black)
                         .font(.init(style: .semiBold, size: 24))
                     
-                    Text("Unlock full PDF power with 3-days Trial, then $6,99 per week")
+                    Text(viewModel.subtitle)
                         .foregroundStyle(Color(hex: "#686868"))
                         .font(.init(style: .regular, size: 16))
                 }
                 .padding(.top, 8)
+                .animation(.default, value: viewModel.subtitle)
+                .transition(.move(edge: .top))
                 
                 VStack(spacing: 8) {
                     ForEach(viewModel.products, id: \.id) { product in

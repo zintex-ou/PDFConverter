@@ -13,21 +13,32 @@ struct ExtractTextView: View {
             VStack(spacing: .zero) {
                 navigationView
                 
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        Text(viewModel.extractedText ?? "Not found text")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.init(style: .regular, size: 16))
-                            .foregroundStyle(.black)
-                            .multilineTextAlignment(.leading)
-                            .padding(.top, 8)
+                if let extractedText = viewModel.extractedText {
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            Text(extractedText)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .font(.init(style: .regular, size: 16))
+                                .foregroundStyle(.black)
+                                .multilineTextAlignment(.leading)
+                                .padding(.top, 8)
+                        }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
+                    
+                    Divider()
+                    
+                    bottomView
+                } else {
+                    VStack {
+                        Spacer()
+                        
+                        Text("Not found text")
+                            .font(.init(style: .semiBold, size: 16))
+                        
+                        Spacer()
+                    }
                 }
-                
-                Divider()
-                
-                bottomView
             }
             
             textCopiedAlert
@@ -62,23 +73,24 @@ struct ExtractTextView: View {
     
     var bottomView: some View {
         HStack {
-            Spacer()
-            
-            Button {
-                viewModel.coppyTextToPasteboard()
-            } label: {
-                VStack(spacing: 4) {
-                    Image(.property1Copy)
-                    
-                    Text("Copy")
-                        .font(.init(style: .regular, size: 12))
-                        .foregroundStyle(.black)
-                }
-            }
-            
-            Spacer()
-            
             if let text = viewModel.extractedText {
+                Spacer()
+                
+                Button {
+                    viewModel.coppyTextToPasteboard()
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(.property1Copy)
+                        
+                        Text("Copy")
+                            .font(.init(style: .regular, size: 12))
+                            .foregroundStyle(.black)
+                    }
+                }
+                
+                Spacer()
+                
+                
                 ShareLink(item: text) {
                     VStack(spacing: 4) {
                         Image(.property1Share)
@@ -88,9 +100,9 @@ struct ExtractTextView: View {
                             .foregroundStyle(.black)
                     }
                 }
+                
+                Spacer()
             }
-            
-            Spacer()
         }
         .padding(.vertical, 16)
         .background(Color(hex: "#FAFAFA"))

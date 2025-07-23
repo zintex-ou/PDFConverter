@@ -77,6 +77,8 @@ struct HomeView: View {
                             Text("Delete")
                             
                             Image(.property1Delite)
+                                .renderingMode(.template)
+                                .foregroundStyle(.red)
                         }
                     }
                 })

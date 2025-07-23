@@ -12,6 +12,7 @@ final class PaywallViewModel: ObservableObject {
     @Published var shouldShowTryAgainAlert: Bool = false
     @Published var crossVisibleButton: Bool = false
     @Published var alertContent: AlertContent = .raw(title: "", subTitle: "")
+    @Published var subtitle: LocalizedStringKey = "Unlock full PDF power with 3-days Trial, then $6,99 per week"
     
     private var reachibility: Reachability?
     private let remoteConfigManager: RemoteConfigManager = .shared
@@ -66,12 +67,6 @@ final class PaywallViewModel: ObservableObject {
     }
     
     func makePurchase(completion: @escaping () -> Void) {
-        self.isLoading = true
-        
-        defer {
-            self.isLoading = false
-        }
-        
         guard reachibility?.connection != .unavailable else {
             alertContent = .raw(title: "Bad Connection", subTitle: "Please, turn on the internet to get full access to the features")
             self.shouldShowAlert = true
@@ -85,6 +80,12 @@ final class PaywallViewModel: ObservableObject {
         }
         
         Task {
+            self.isLoading = true
+            
+            defer {
+                self.isLoading = false
+            }
+            
             if let result = await subscriptionService.makePurchase(for: selectedProduct.id) {
                 
                 switch result {
@@ -105,12 +106,6 @@ final class PaywallViewModel: ObservableObject {
     }
     
     func tapOnRestore(completion: @escaping () -> Void) {
-        self.isLoading = true
-        
-        defer {
-            self.isLoading = false
-        }
-        
         guard reachibility?.connection != .unavailable else {
             alertContent = .raw(title: "Bad Connection", subTitle: "Please, turn on the internet to get full access to the features")
             self.shouldShowAlert = true
@@ -118,6 +113,12 @@ final class PaywallViewModel: ObservableObject {
         }
         
         Task {
+            self.isLoading = true
+            
+            defer {
+                self.isLoading = false
+            }
+            
             if let isActive = await subscriptionService.restorePurchases(), isActive {
                 completion()
             } else {
@@ -146,6 +147,19 @@ extension PaywallViewModel {
                 if let error {
                     self?.alertContent = error
                     self?.shouldShowAlert = true
+                }
+            })
+            .store(in: &cancellables)
+        
+        $selectedProduct
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] products in
+                guard let self,
+                      let products else { return }
+                if let badge = products.badge {
+                    self.subtitle = "Unlock full PDF power with \(badge), then \(products.price) per \(products.description)"
+                } else {
+                    self.subtitle = "Unlock full PDF power, then \(products.price) per \(products.description)"
                 }
             })
             .store(in: &cancellables)
