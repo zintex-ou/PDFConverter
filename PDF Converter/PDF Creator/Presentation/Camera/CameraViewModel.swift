@@ -1,7 +1,7 @@
 import UIKit
 import Photos
 import AVFoundation
-import SwiftUICore
+import SwiftUI
 import Combine
 
 class CameraViewModel: ObservableObject {

@@ -1,4 +1,4 @@
-import SwiftUICore
+import SwiftUI
 import SwiftUI
 
 struct CameraView: View {

@@ -1,6 +1,6 @@
 import Foundation
 import PDFKit
-import SwiftUICore
+import SwiftUI
 import _PhotosUI_SwiftUI
 import SwiftUI
 
