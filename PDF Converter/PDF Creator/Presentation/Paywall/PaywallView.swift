@@ -32,9 +32,9 @@ struct PaywallView: View {
                     Text(viewModel.subtitle)
                         .foregroundStyle(Color(hex: "#686868"))
                         .font(.init(style: .regular, size: 16))
+                        .frame(height: 44, alignment: .top)
                 }
                 .padding(.top, 8)
-                .animation(.default, value: viewModel.subtitle)
                 .transition(.move(edge: .top))
                 
                 VStack(spacing: 8) {

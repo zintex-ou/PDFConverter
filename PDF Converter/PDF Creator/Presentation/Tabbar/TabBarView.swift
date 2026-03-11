@@ -40,6 +40,7 @@ struct TabBarView: View {
                     
                 }
             }
+            .frame(height: 44)
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
             .background(Color(hex: "#FAFAFA"))
@@ -91,12 +92,13 @@ struct TabBarView: View {
                                     .foregroundStyle(isSelected ? Color(hex: "#D53131") : Color(hex: "#686868"))
                             }
                         }
+                        .frame(width: 44, height: 44)
                     }
                     
                     Spacer()
                 }
             }
-            .padding(.vertical, 16)
+            .padding(.top, 16)
             .background(Color(hex: "#FAFAFA"))
         }
         .confirmationDialog(

@@ -101,12 +101,12 @@ struct CameraView: View {
                 }
                 .alert(isPresented: $viewModel.showSettingAlert) {
                     Alert(
-                        title: Text("Warning"),
-                        message: Text("Application doesn't have all permissions to use camera, please change privacy settings."),
-                        dismissButton:
-                                .default(Text("Go to settings"), action: {
-                                    self.openSettings()
-                                })
+                        title: Text("Camera Unavailable"),
+                        message: Text("Privacy or Restrictions settings have disabled use of the camera. You can change this in Settings."),
+                        primaryButton: .default(Text("Settings"), action: {
+                            openSettings()
+                        }),
+                        secondaryButton: .cancel(Text("OK"))
                     )
                 }
                 .onAppear {

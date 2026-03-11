@@ -123,6 +123,7 @@ struct PDFEditorView: View {
                             .font(.init(style: .regular, size: 12))
                             .foregroundStyle(.black)
                     }
+                    .frame(width: 62, height: 42)
                 }
                 
                 Spacer()

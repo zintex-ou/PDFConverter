@@ -5,6 +5,7 @@ final class MailPresenter: NSObject, MFMailComposeViewControllerDelegate {
     static let shared = MailPresenter()
     
     var closeAction: (() -> Void)?
+    private var isPresentingMail = false
     
     private override init() { }
     
@@ -13,6 +14,10 @@ final class MailPresenter: NSObject, MFMailComposeViewControllerDelegate {
         errorMessage: String,
         supportEmail: String
     ) {
+        guard !isPresentingMail else { return }
+        if UIApplication.shared.topViewController is MFMailComposeViewController {
+            return
+        }
         if !MFMailComposeViewController.canSendMail() {
             presentAlert(
                 title: errorTitle,
@@ -21,6 +26,7 @@ final class MailPresenter: NSObject, MFMailComposeViewControllerDelegate {
             )
             return
         }
+        isPresentingMail = true
         let picker = MFMailComposeViewController()
         picker.setToRecipients([supportEmail])
         picker.setSubject(UIApplication.shared.appName)
@@ -34,6 +40,7 @@ final class MailPresenter: NSObject, MFMailComposeViewControllerDelegate {
         error: Error?
     ){
         UIApplication.shared.topViewController?.dismiss(animated: true)
+        isPresentingMail = false
         closeAction?()
     }
 }

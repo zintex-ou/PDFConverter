@@ -50,10 +50,19 @@ final class OnboardingViewModel: ObservableObject {
     }
     
     func getContinueButtonText() -> LocalizedStringKey {
-        if currentIndex == pages.count - 1, self.remoteConfigManager.config.paywallConfig.showPriceTitle {
-            return "With 3 days trial, then \(weeklyProduct?.price ?? "$6.99")/\(weeklyProduct?.description ?? "week")"
-        } else {
+        guard currentIndex == pages.count - 1,
+              remoteConfigManager.config.paywallConfig.showPriceTitle else {
             return "Continue"
+        }
+        
+        guard let weeklyProduct else {
+            return "Continue"
+        }
+        
+        if let badge = weeklyProduct.badge, !badge.isEmpty {
+            return "\(badge), then \(weeklyProduct.price)/\(weeklyProduct.description)"
+        } else {
+            return "Subscribe for \(weeklyProduct.price)/\(weeklyProduct.description)"
         }
     }
     
@@ -155,13 +164,19 @@ extension OnboardingViewModel {
                     
                     if let lastPageIndex = self.pages.indices.last {
                         let price = weekly.price
-                        let badge = weekly.badge ?? "3-days Trial"
                         let period = weekly.description
-                        
+
+                        let subtitle: LocalizedStringKey
+                        if let badge = weekly.badge, !badge.isEmpty {
+                            subtitle = "Unlock full PDF power with \(badge), then \(price) per \(period)"
+                        } else {
+                            subtitle = "Unlock full PDF power for \(price) per \(period)"
+                        }
+
                         self.pages[lastPageIndex] = OnboardingPage(
                             image: .BG_5,
                             title: "Enjoy unlimited conversions!",
-                            subtitle: "Unlock full PDF power with \(badge), then \(price) per \(period)"
+                            subtitle: subtitle
                         )
                     }
                 }

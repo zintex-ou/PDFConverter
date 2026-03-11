@@ -79,18 +79,34 @@ class CameraViewModel: ObservableObject {
         cameraManager.setZoomScale(factor: factor)
     }
     
-    // Check for camera device permission.
     func checkForDevicePermission() {
-        let videoStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
-        if videoStatus == .authorized {
-            // If Permission granted, configure the camera.
+        let videoStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch videoStatus {
+        case .authorized:
             isPermissionGranted = true
             configureCamera()
-        } else if videoStatus == .notDetermined {
-            // In case the user has not been asked to grant access we request permission
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { _ in })
-        } else if videoStatus == .denied {
-            // If Permission denied, show a setting alert.
+            
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    
+                    if granted {
+                        self.isPermissionGranted = true
+                        self.configureCamera()
+                    } else {
+                        self.isPermissionGranted = false
+                        self.showSettingAlert = true
+                    }
+                }
+            }
+            
+        case .denied, .restricted:
+            isPermissionGranted = false
+            showSettingAlert = true
+            
+        @unknown default:
             isPermissionGranted = false
             showSettingAlert = true
         }

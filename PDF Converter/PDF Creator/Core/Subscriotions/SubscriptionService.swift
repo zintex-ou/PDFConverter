@@ -22,16 +22,32 @@ final class SubscriptionService: ObservableObject {
         Adapty.activate(EnvironmentValues.getValue().adapty,
                         customerUserId: userIdKey)
         Adapty.delegate = self
+        
+        #if DEBUG
+        self.isSubscribed = true
+        self.configureShortCut()
+        #endif
     }
     
     func start() async {
+        #if DEBUG
+        self.isSubscribed = true
+        self.configureShortCut()
+        await setupAdaptyProvider()
+        return
+        #endif
+        
         await fetchProfile()
         await setupAdaptyProvider()
     }
     
     func isActivityPurchases() -> Bool {
+        #if DEBUG
+        return true
+        #else
         guard let expiresAt = self.keychainManager.purchasesExpiresAt else { return false }
         return Date() < expiresAt
+        #endif
     }
     
     func loadProducts() {
@@ -39,6 +55,12 @@ final class SubscriptionService: ObservableObject {
             do {
                 try await provider.loadProducts()
             } catch {
+                #if DEBUG
+                self.isSubscribed = true
+                self.configureShortCut()
+                return
+                #endif
+                
                 if let error = AdaptyErrorManager.init(error: error).error {
                     self.subscriptionError = error
                 }
@@ -47,6 +69,11 @@ final class SubscriptionService: ObservableObject {
     }
     
     func makePurchase(for productId: String) async -> AdaptyPurchaseResult? {
+        #if DEBUG
+        self.isSubscribed = true
+        self.configureShortCut()
+        return nil
+        #else
         guard let product = adaptyProducts.first(where: { $0.vendorProductId == productId }) else {
             self.subscriptionError = .raw(title: "Product not found", subTitle: "")
             return nil
@@ -59,6 +86,12 @@ final class SubscriptionService: ObservableObject {
             let isPremium = purchasesResult.profile?.accessLevels.contains(where: { $0.value.isActive }) ?? false
             self.isSubscribed = isPremium
             
+            if isPremium {
+                self.configureShortCut()
+            } else {
+                UIApplication.shared.shortcutItems = []
+            }
+            
             return purchasesResult
         } catch {
             if let error = AdaptyErrorManager.init(error: error).error {
@@ -66,14 +99,27 @@ final class SubscriptionService: ObservableObject {
             }
             return nil
         }
+        #endif
     }
     
     func restorePurchases() async -> Bool? {
+        #if DEBUG
+        self.isSubscribed = true
+        self.configureShortCut()
+        return true
+        #else
         do {
             let profile = try await Adapty.restorePurchases()
             saveExpiresPurchasesToStorage(profile: profile)
             let isPremium = profile.accessLevels.contains(where: { $0.value.isActive })
             self.isSubscribed = isPremium
+            
+            if isPremium {
+                self.configureShortCut()
+            } else {
+                UIApplication.shared.shortcutItems = []
+            }
+            
             return isPremium
         } catch {
             if let error = AdaptyErrorManager.init(error: error).error {
@@ -81,6 +127,7 @@ final class SubscriptionService: ObservableObject {
             }
             return nil
         }
+        #endif
     }
 }
 
@@ -102,6 +149,11 @@ extension SubscriptionService {
     }
     
     private func fetchProfile() async {
+        #if DEBUG
+        self.isSubscribed = true
+        self.configureShortCut()
+        return
+        #else
         do {
             let profile = try await Adapty.getProfile()
             saveExpiresPurchasesToStorage(profile: profile)
@@ -113,6 +165,7 @@ extension SubscriptionService {
                 self.subscriptionError = error
             }
         }
+        #endif
     }
     
     private func configureShortCut() {
@@ -156,6 +209,11 @@ extension SubscriptionService {
 
 extension SubscriptionService: AdaptyDelegate {
     func didLoadLatestProfile(_ profile: AdaptyProfile) {
+        #if DEBUG
+        self.isSubscribed = true
+        self.configureShortCut()
+        return
+        #else
         saveExpiresPurchasesToStorage(profile: profile)
         let isPremium = profile.accessLevels.contains(where: { $0.value.isActive })
         self.isSubscribed = isPremium
@@ -165,5 +223,6 @@ extension SubscriptionService: AdaptyDelegate {
         } else {
             self.configureShortCut()
         }
+        #endif
     }
 }

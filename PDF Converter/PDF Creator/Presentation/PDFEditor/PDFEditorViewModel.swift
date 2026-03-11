@@ -5,13 +5,21 @@ import Combine
 
 @MainActor
 final class PDFEditorViewModel: ObservableObject {
+    enum ExtractTextState: Equatable {
+        case idle
+        case loading
+        case success(String)
+        case empty
+        case failed
+    }
+    
     @Published var currentPage: Int = 0
     @Published var shouldShowConfirmationDialog: Bool = false
     @Published var shouldShowPhotoPicker: Bool = false
     @Published var shouldShowDocumentPicker: Bool = false
     @Published var photoItems: [PhotosPickerItem] = []
     @Published var pdfMetaData: PDFMetadata
-    @Published var extractedText: String?
+    @Published var extractTextState: ExtractTextState = .idle
     @Published var shouldSHowCopiedAlert: Bool = false
     
     private(set) var instruments: [InstrumentsItem] = []
@@ -68,10 +76,13 @@ final class PDFEditorViewModel: ObservableObject {
     func cameraCompletion(imagesData: [Data]) {
         guard !imagesData.isEmpty else { return }
         
-        Task {
+        Task { [weak self] in
+            guard let self else { return }
+            
             do {
                 if let metaData = try await self.mergePDFs(imagesData: imagesData) {
                     self.pdfMetaData = metaData
+                    self.currentPage = 0
                 }
             } catch {
                 print(error.localizedDescription)
@@ -80,18 +91,19 @@ final class PDFEditorViewModel: ObservableObject {
     }
     
     func mergePDFs(imagesData: [Data]) async throws -> PDFMetadata? {
-        guard let temporyPDFURLFromImage = try await self.convertToPDF(from: imagesData) else { return nil }
+        guard let temporaryPDFURLFromImage = try await convertToPDF(from: imagesData) else {
+            return nil
+        }
         
-        print(temporyPDFURLFromImage)
+        guard let mergedURL = try await createPDFServcie.mergePDFs(
+            basePDFURL: pdfMetaData.url,
+            additionalPDFURL: temporaryPDFURLFromImage,
+            destinationURL: fileManagerService.getTemporaryDirectory()
+        ) else {
+            return nil
+        }
         
-        guard let pdfAfertMergeURL = try await self.createPDFServcie.mergePDFs(
-            basePDFURL: self.pdfMetaData.url,
-            additionalPDFURL: temporyPDFURLFromImage,
-            destinationURL: self.fileManagerService.getTemporaryDirectory()
-        ) else { return nil }
-        
-        let newModel = try await PDFMetadataService.fetchMetadata(from: pdfAfertMergeURL)
-        
+        let newModel = try await PDFMetadataService.fetchMetadata(from: mergedURL)
         return newModel
     }
     
@@ -114,24 +126,38 @@ final class PDFEditorViewModel: ObservableObject {
     
     func extractText() {
         extractTextTask?.cancel()
+        extractTextState = .loading
+        
+        let pageIndex = currentPage
         
         extractTextTask = Task { [weak self] in
             guard let self else { return }
             do {
                 let text = try await createPDFServcie.extractText(
                     from: pdfMetaData.url,
-                    pageIndex: currentPage
+                    pageIndex: pageIndex
                 )
-                self.extractedText = text
+                if Task.isCancelled { return }
+                guard self.currentPage == pageIndex else { return }
+                
+                if let text, !text.isEmpty {
+                    self.extractTextState = .success(text)
+                } else {
+                    self.extractTextState = .empty
+                }
             } catch {
+                if Task.isCancelled { return }
+                guard self.currentPage == pageIndex else { return }
                 print(error.localizedDescription)
+                self.extractTextState = .failed
             }
         }
     }
     
     func coppyTextToPasteboard() {
+        guard case let .success(text) = extractTextState else { return }
         shouldSHowCopiedAlert = true
-        UIPasteboard.general.string = extractedText
+        UIPasteboard.general.string = text
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.shouldSHowCopiedAlert = false

@@ -13,32 +13,7 @@ struct ExtractTextView: View {
             VStack(spacing: .zero) {
                 navigationView
                 
-                if let extractedText = viewModel.extractedText {
-                    ScrollView {
-                        VStack(alignment: .leading) {
-                            Text(extractedText)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.init(style: .regular, size: 16))
-                                .foregroundStyle(.black)
-                                .multilineTextAlignment(.leading)
-                                .padding(.top, 8)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    
-                    Divider()
-                    
-                    bottomView
-                } else {
-                    VStack {
-                        Spacer()
-                        
-                        Text("Not found text")
-                            .font(.init(style: .semiBold, size: 16))
-                        
-                        Spacer()
-                    }
-                }
+                content
             }
             
             textCopiedAlert
@@ -47,13 +22,17 @@ struct ExtractTextView: View {
         }
         .padding(.horizontal, 16)
         .background(Color(hex: "#FAFAFA"))
+        .loading(isPresented: .init(
+            get: { viewModel.extractTextState == .loading },
+            set: { _ in }
+        ))
         .onAppear {
             viewModel.extractText()
         }
         .onChange(of: viewModel.currentPage) {_ in
             viewModel.extractText()
         }
-        .animation(.default, value: viewModel.extractedText)
+        .animation(.default, value: viewModel.extractTextState)
         .animation(.default, value: viewModel.shouldSHowCopiedAlert)
     }
     
@@ -73,7 +52,7 @@ struct ExtractTextView: View {
     
     var bottomView: some View {
         HStack {
-            if let text = viewModel.extractedText {
+            if case let .success(text) = viewModel.extractTextState {
                 Spacer()
                 
                 Button {
@@ -104,7 +83,7 @@ struct ExtractTextView: View {
                 Spacer()
             }
         }
-        .padding(.vertical, 16)
+        .padding(.top, 16)
         .background(Color(hex: "#FAFAFA"))
     }
     
@@ -123,6 +102,39 @@ struct ExtractTextView: View {
             .padding(.all, 19)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 14))
+        }
+    }
+    
+    @ViewBuilder
+    var content: some View {
+        switch viewModel.extractTextState {
+        case .idle, .loading:
+            Color.clear
+        case .success(let extractedText):
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text(extractedText)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.init(style: .regular, size: 16))
+                        .foregroundStyle(.black)
+                        .multilineTextAlignment(.leading)
+                        .padding(.top, 8)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            
+            Divider()
+            
+            bottomView
+        case .empty, .failed:
+            VStack {
+                Spacer()
+                
+                Text("Not found text")
+                    .font(.init(style: .semiBold, size: 16))
+                
+                Spacer()
+            }
         }
     }
 }
