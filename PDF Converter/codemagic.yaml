@@ -12,8 +12,8 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.make.your.invoice
       vars:
-        XCODE_PROJECT: "PDFConverter/PDFConverter.xcodeproj"
-        XCODE_SCHEME:  "PDFConverter"
+        XCODE_PROJECT: "PDF Converter.xcodeproj"
+        XCODE_SCHEME:  "PDF Converter"
         APP_STORE_APPLE_ID: "6748354307"
       xcode: latest
       cocoapods: default
