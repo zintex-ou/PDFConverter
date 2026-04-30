@@ -94,6 +94,12 @@ struct AdaptyErrorManager {
             return .raw(title: "Operation Interrupted", subTitle: "This operation was interrupted by the system.")
         case .fetchSubscriptionStatusFailed:
             return .raw(title: "Fetch Failed", subTitle: "Unable to fetch subscription status. Please try again later.")
+        case .paymentPendingError:
+            return .raw(title: "Fetch Failed", subTitle: "Unable to fetch subscription status. Please try again later.")
+        case .unknownTransactionId:
+            return .raw(title: "Fetch Failed", subTitle: "Unable to fetch subscription status. Please try again later.")
+        case .unidentifiedUserLogout:
+            return .raw(title: "Fetch Failed", subTitle: "Unable to fetch subscription status. Please try again later.")
         }
     }
 }
