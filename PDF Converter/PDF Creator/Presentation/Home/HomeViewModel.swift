@@ -5,6 +5,22 @@ final class HomeViewModel: ObservableObject {
     @Published var pdfMetaData: [PDFMetadata] = []
     @Published var shouldShowRenameAlert: Bool = false
     @Published var nameToRename: String = ""
+    @Published var searchText: String = ""
+    @Published var isSelecting: Bool = false
+    @Published var selectedIDs: Set<UUID> = []
+    
+    var filteredMetaData: [PDFMetadata] {
+        guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return pdfMetaData
+        }
+        return pdfMetaData.filter {
+            ($0.title ?? "").localizedCaseInsensitiveContains(searchText)
+        }
+    }
+    
+    var selectedURLsForSharing: [URL] {
+        pdfMetaData.filter { selectedIDs.contains($0.id) }.map(\.url)
+    }
     
     private let fileManagerService: FileManagerService = .shared
     private let notificationService: NotificationService = .shared
@@ -87,6 +103,33 @@ final class HomeViewModel: ObservableObject {
                 
             }
         }
+    }
+    func toggleSelectMode() {
+        isSelecting.toggle()
+        if !isSelecting {
+            selectedIDs.removeAll()
+        }
+    }
+    
+    func isSelected(_ metaData: PDFMetadata) -> Bool {
+        selectedIDs.contains(metaData.id)
+    }
+    
+    func toggleSelection(_ metaData: PDFMetadata) {
+        if selectedIDs.contains(metaData.id) {
+            selectedIDs.remove(metaData.id)
+        } else {
+            selectedIDs.insert(metaData.id)
+        }
+    }
+    
+    func deleteSelected() {
+        let itemsToDelete = pdfMetaData.filter { selectedIDs.contains($0.id) }
+        for item in itemsToDelete {
+            remove(item)
+        }
+        selectedIDs.removeAll()
+        isSelecting = false
     }
 }
 
