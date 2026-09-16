@@ -33,10 +33,13 @@ extension UIApplication {
 
     /// For an explicit "Rate app" tap (e.g. in Settings). SKStoreReviewController
     /// is throttled by iOS to a few prompts per year, so a direct tap on a visible
-    /// button can silently do nothing after the first couple of uses. Deep-linking
-    /// to the App Store's review page always works.
+    /// button can silently do nothing after the first couple of uses. itms-apps
+    /// is the scheme the App Store app actually intercepts for a direct link to
+    /// its review page (a plain https link isn't guaranteed to land there).
     func openAppStoreReviewPage() {
-        guard let url = URL(string: "\(EnvironmentValues.getValue().appId)?action=write-review") else { return }
+        let httpsAppId = EnvironmentValues.getValue().appId
+        let itmsAppId = httpsAppId.replacingOccurrences(of: "https://", with: "itms-apps://")
+        guard let url = URL(string: "\(itmsAppId)?action=write-review") else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
