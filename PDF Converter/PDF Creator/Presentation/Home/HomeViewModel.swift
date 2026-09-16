@@ -9,9 +9,14 @@ final class HomeViewModel: ObservableObject {
     private let fileManagerService: FileManagerService = .shared
     private let notificationService: NotificationService = .shared
     private var selectedMetaData: PDFMetadata?
+    private var observerTokens: [NSObjectProtocol] = []
     
     init() {
         setupSubscribers()
+    }
+
+    deinit {
+        observerTokens.forEach { notificationService.stopObserving($0) }
     }
     
     func getAllURLs() async {
@@ -87,7 +92,7 @@ final class HomeViewModel: ObservableObject {
 
 extension HomeViewModel {
     private func setupSubscribers() {
-        notificationService.observe(event: .createPDFURL) { [weak self] (url: URL) in
+        let token1 = notificationService.observe(event: .createPDFURL) { [weak self] (url: URL) in
             Task {
                 do {
                     try await self?.pdfMetaData.insert(PDFMetadataService.fetchMetadata(from: url), at: 0)
@@ -97,10 +102,12 @@ extension HomeViewModel {
             }
         }
         
-        notificationService.observe(event: .updatePDFList) { [weak self] in
+        let token2 = notificationService.observe(event: .updatePDFList) { [weak self] in
             Task {
                 await self?.getAllURLs()
             }
         }
+
+        observerTokens.append(contentsOf: [token1, token2])
     }
 }

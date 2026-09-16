@@ -11,7 +11,8 @@ final class NotificationService {
         )
     }
     
-    func observe<T>(event: NotificationEvent, handler: @escaping (T) -> Void) {
+    @discardableResult
+    func observe<T>(event: NotificationEvent, handler: @escaping (T) -> Void) -> NSObjectProtocol {
         NotificationCenter.default.addObserver(
             forName: NSNotification.Name(event.rawValue),
             object: nil,
@@ -21,6 +22,10 @@ final class NotificationService {
                 handler(object)
             }
         }
+    }
+
+    func stopObserving(_ token: NSObjectProtocol) {
+        NotificationCenter.default.removeObserver(token)
     }
 }
 
