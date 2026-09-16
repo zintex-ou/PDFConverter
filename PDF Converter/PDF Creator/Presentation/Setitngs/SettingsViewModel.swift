@@ -20,7 +20,7 @@ final class SettingsViewModel: ObservableObject {
     }
     
     func reateUs() {
-        UIApplication.shared.askRateApp()
+        UIApplication.shared.openAppStoreReviewPage()
     }
     
     func shareApp() {

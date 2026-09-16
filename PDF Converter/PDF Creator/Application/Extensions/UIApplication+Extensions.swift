@@ -30,6 +30,15 @@ extension UIApplication {
         guard let scene = foregroundActiveScene else { return }
         SKStoreReviewController.requestReview(in: scene)
     }
+
+    /// For an explicit "Rate app" tap (e.g. in Settings). SKStoreReviewController
+    /// is throttled by iOS to a few prompts per year, so a direct tap on a visible
+    /// button can silently do nothing after the first couple of uses. Deep-linking
+    /// to the App Store's review page always works.
+    func openAppStoreReviewPage() {
+        guard let url = URL(string: "\(EnvironmentValues.getValue().appId)?action=write-review") else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
     
     func openTermsWebPage() {
         guard let url = URL(string: EnvironmentValues.getValue().terms) else { return }
