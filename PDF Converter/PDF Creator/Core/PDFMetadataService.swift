@@ -16,9 +16,7 @@ enum PDFMetadataError: Error {
 
 final class PDFMetadataService {
     static func fetchMetadata(from url: URL) async throws -> PDFMetadata {
-        let (localURL, _) = try await URLSession.shared.download(from: url)
-
-        guard let pdfDocument = PDFDocument(url: localURL) else {
+        guard let pdfDocument = PDFDocument(url: url) else {
             throw PDFMetadataError.invalidPDF
         }
 

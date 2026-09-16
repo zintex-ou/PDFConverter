@@ -68,8 +68,13 @@ extension KeychainManager {
                     return nil
                 }
                 return try decoder.decode(Element.self, from: data)
-            } catch let error {
-                fatalError("KeychainStorage.Value of type: \(Element.self) decode error: \(error.localizedDescription)")
+            } catch {
+                // Corrupted or incompatible data (e.g. after a format change)
+                // shouldn't crash the app on every future launch — treat it
+                // as if nothing were stored, and clear the bad entry.
+                print("KeychainStorage.Value of type: \(Element.self) decode error: \(error.localizedDescription)")
+                try? keychain.remove(key.stringValue)
+                return nil
             }
         }
     
@@ -83,8 +88,8 @@ extension KeychainManager {
                     data,
                     key: key.stringValue
                 )
-            } catch let error {
-                fatalError("KeychainStorage.Value of type: \(Element.self) encode/save error: \(error.localizedDescription)")
+            } catch {
+                print("KeychainStorage.Value of type: \(Element.self) encode/save error: \(error.localizedDescription)")
             }
         }
         
