@@ -175,7 +175,7 @@ final class PDFService {
             
             request.recognitionLevel = .accurate
             request.usesLanguageCorrection = true
-            request.recognitionLanguages = ["en-US", "ru-RU"]
+            request.automaticallyDetectsLanguage = true
             
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
             
