@@ -35,6 +35,17 @@ struct PDFEditorView: View {
             bottomBarView
         }
         .background(Color(hex: "#FAFAFA"))
+        .overlay {
+            if viewModel.isProcessing {
+                Color.black.opacity(0.25)
+                    .ignoresSafeArea()
+                    .overlay {
+                        ProgressView()
+                            .tint(.white)
+                            .scaleEffect(1.4)
+                    }
+            }
+        }
         .confirmationDialog(
             "",
             isPresented: $viewModel.shouldShowConfirmationDialog,
@@ -50,6 +61,67 @@ struct PDFEditorView: View {
             
             Button("Gallery") {
                 viewModel.showPhotoPicker()
+            }
+        }
+        .confirmationDialog(
+            "Tools",
+            isPresented: $viewModel.shouldShowToolsMenu,
+            titleVisibility: .visible
+        ) {
+            Button("Apply Filter") {
+                viewModel.openFilterMenu()
+            }
+            
+            Button("Compress") {
+                viewModel.openCompressMenu()
+            }
+            
+            Button("Add Watermark") {
+                viewModel.openWatermarkPrompt()
+            }
+            
+            Button("Split PDF") {
+                viewModel.openSplitPicker()
+            }
+        }
+        .confirmationDialog(
+            "Apply Filter",
+            isPresented: $viewModel.shouldShowFilterMenu,
+            titleVisibility: .visible
+        ) {
+            ForEach(PDFFilterOption.allCases, id: \.self) { option in
+                Button(option.title) {
+                    viewModel.applyFilter(option)
+                }
+            }
+        }
+        .confirmationDialog(
+            "Compress",
+            isPresented: $viewModel.shouldShowCompressMenu,
+            titleVisibility: .visible
+        ) {
+            ForEach(PDFCompressionLevel.allCases, id: \.self) { level in
+                Button(level.title) {
+                    viewModel.compress(level)
+                }
+            }
+        }
+        .alert("Add Watermark", isPresented: $viewModel.shouldShowWatermarkAlert) {
+            TextField("Watermark text", text: $viewModel.watermarkText)
+            
+            Button("Cancel", role: .cancel) {}
+            
+            Button("Add") {
+                viewModel.applyWatermark()
+            }
+        }
+        .onChange(of: viewModel.shouldPushSplitPicker) { shouldPush in
+            guard shouldPush else { return }
+            viewModel.shouldPushSplitPicker = false
+            coordinator.pushTo(id: SplitPDFView.navigationID) {
+                SplitPDFView(viewModel: viewModel) { indices in
+                    viewModel.splitPDF(indices: indices)
+                }
             }
         }
         .photosPicker(

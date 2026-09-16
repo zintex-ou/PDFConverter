@@ -4,6 +4,7 @@ import SwiftUI
 import _PhotosUI_SwiftUI
 import SwiftUI
 import Vision
+import CoreImage
 
 @MainActor
 final class PDFService {
@@ -117,6 +118,157 @@ final class PDFService {
         }
     }
     
+    // MARK: - Filters, compression, watermark, split
+
+    func applyFilter(
+        _ filter: PDFFilterOption,
+        to sourceURL: URL,
+        destinationDirectory: URL
+    ) async throws -> URL? {
+        try await rebuildDocument(from: sourceURL, destinationDirectory: destinationDirectory, suffix: "filtered") { image in
+            Self.applyCIFilter(filter, to: image)
+        }
+    }
+
+    func compress(
+        _ level: PDFCompressionLevel,
+        url: URL,
+        destinationDirectory: URL
+    ) async throws -> URL? {
+        try await rebuildDocument(from: url, destinationDirectory: destinationDirectory, suffix: "compressed") { image in
+            Self.compressImage(image, level: level)
+        }
+    }
+
+    func applyWatermark(
+        text: String,
+        to url: URL,
+        destinationDirectory: URL
+    ) async throws -> URL? {
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+        return try await rebuildDocument(from: url, destinationDirectory: destinationDirectory, suffix: "watermarked") { image in
+            Self.drawWatermark(text, on: image)
+        }
+    }
+
+    /// Extracts the given page indices into a brand-new PDF, leaving the source untouched.
+    func extractPages(
+        _ indices: [Int],
+        from url: URL,
+        destinationDirectory: URL
+    ) async throws -> URL? {
+        guard let document = PDFDocument(url: url), !indices.isEmpty else { return nil }
+
+        let newDocument = PDFDocument()
+        for (newIndex, pageIndex) in indices.sorted().enumerated() {
+            guard let page = document.page(at: pageIndex) else { continue }
+            newDocument.insert(page, at: newIndex)
+        }
+        guard newDocument.pageCount > 0 else { return nil }
+
+        let originalFileName = url.deletingPathExtension().lastPathComponent
+        let uniqueName = "\(originalFileName)_split_\(UUID().uuidString).pdf"
+        let finalURL = destinationDirectory.appendingPathComponent(uniqueName)
+
+        return newDocument.write(to: finalURL) ? finalURL : nil
+    }
+
+    private func rebuildDocument(
+        from sourceURL: URL,
+        destinationDirectory: URL,
+        suffix: String,
+        transform: (UIImage) -> UIImage
+    ) async throws -> URL? {
+        guard let document = PDFDocument(url: sourceURL) else { return nil }
+
+        var images: [UIImage] = []
+        for i in 0..<document.pageCount {
+            guard let page = document.page(at: i),
+                  let rendered = renderPDFPageToImage(page) else { continue }
+            images.append(transform(rendered))
+        }
+        guard !images.isEmpty else { return nil }
+
+        let newDocument = PDFDocument()
+        for (index, image) in images.enumerated() {
+            guard let page = PDFPage(image: image) else { continue }
+            newDocument.insert(page, at: index)
+        }
+        guard newDocument.pageCount > 0 else { return nil }
+
+        let originalFileName = sourceURL.deletingPathExtension().lastPathComponent
+        let uniqueName = "\(originalFileName)_\(suffix)_\(UUID().uuidString).pdf"
+        let finalURL = destinationDirectory.appendingPathComponent(uniqueName)
+
+        return newDocument.write(to: finalURL) ? finalURL : nil
+    }
+
+    private static let ciContext = CIContext()
+
+    private static func applyCIFilter(_ filter: PDFFilterOption, to image: UIImage) -> UIImage {
+        guard filter != .original, let ciImage = CIImage(image: image) else { return image }
+
+        let output: CIImage?
+        switch filter {
+        case .original:
+            output = ciImage
+        case .blackAndWhite:
+            let mono = CIFilter(name: "CIColorMonochrome")
+            mono?.setValue(ciImage, forKey: kCIInputImageKey)
+            mono?.setValue(CIColor(color: .white), forKey: "inputColor")
+            mono?.setValue(1.0, forKey: "inputIntensity")
+            output = mono?.outputImage
+        case .highContrast:
+            let controls = CIFilter(name: "CIColorControls")
+            controls?.setValue(ciImage, forKey: kCIInputImageKey)
+            controls?.setValue(1.35, forKey: "inputContrast")
+            output = controls?.outputImage
+        }
+
+        guard let output, let cgImage = ciContext.createCGImage(output, from: output.extent) else { return image }
+        return UIImage(cgImage: cgImage, scale: image.scale, orientation: image.imageOrientation)
+    }
+
+    private static func compressImage(_ image: UIImage, level: PDFCompressionLevel) -> UIImage {
+        let resized = resize(image, maxDimension: level.maxDimension)
+        guard let data = resized.jpegData(compressionQuality: level.jpegQuality),
+              let reloaded = UIImage(data: data) else { return resized }
+        return reloaded
+    }
+
+    private static func resize(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
+        let longestSide = max(image.size.width, image.size.height)
+        guard longestSide > maxDimension else { return image }
+
+        let scale = maxDimension / longestSide
+        let newSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+    }
+
+    private static func drawWatermark(_ text: String, on image: UIImage) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: image.size)
+        return renderer.image { ctx in
+            image.draw(at: .zero)
+
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.boldSystemFont(ofSize: image.size.width * 0.08),
+                .foregroundColor: UIColor.gray.withAlphaComponent(0.35)
+            ]
+            let attributedText = NSAttributedString(string: text, attributes: attributes)
+            let textSize = attributedText.size()
+
+            ctx.cgContext.saveGState()
+            ctx.cgContext.translateBy(x: image.size.width / 2, y: image.size.height / 2)
+            ctx.cgContext.rotate(by: -.pi / 4)
+            attributedText.draw(at: CGPoint(x: -textSize.width / 2, y: -textSize.height / 2))
+            ctx.cgContext.restoreGState()
+        }
+    }
+
     // MARK: - Extract text
     
     func extractText(from url: URL, pageIndex: Int) async throws -> String? {

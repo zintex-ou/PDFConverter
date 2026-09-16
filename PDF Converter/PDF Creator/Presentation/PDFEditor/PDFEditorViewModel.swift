@@ -21,6 +21,13 @@ final class PDFEditorViewModel: ObservableObject {
     @Published var pdfMetaData: PDFMetadata
     @Published var extractTextState: ExtractTextState = .idle
     @Published var shouldSHowCopiedAlert: Bool = false
+    @Published var shouldShowToolsMenu: Bool = false
+    @Published var shouldShowFilterMenu: Bool = false
+    @Published var shouldShowCompressMenu: Bool = false
+    @Published var shouldShowWatermarkAlert: Bool = false
+    @Published var watermarkText: String = ""
+    @Published var shouldPushSplitPicker: Bool = false
+    @Published var isProcessing: Bool = false
     
     private(set) var instruments: [InstrumentsItem] = []
     private let createPDFServcie: PDFService = .shared
@@ -55,6 +62,115 @@ final class PDFEditorViewModel: ObservableObject {
     
     func share() {
         UIApplication.shared.sharePDF(url: pdfMetaData.url)
+    }
+    
+    func openTools() {
+        shouldShowToolsMenu = true
+    }
+    
+    func openFilterMenu() {
+        shouldShowFilterMenu = true
+    }
+    
+    func openCompressMenu() {
+        shouldShowCompressMenu = true
+    }
+    
+    func openWatermarkPrompt() {
+        watermarkText = ""
+        shouldShowWatermarkAlert = true
+    }
+    
+    func openSplitPicker() {
+        shouldPushSplitPicker = true
+    }
+    
+    func applyFilter(_ filter: PDFFilterOption) {
+        Task { [weak self] in
+            guard let self else { return }
+            self.isProcessing = true
+            defer { self.isProcessing = false }
+            
+            do {
+                if let url = try await self.createPDFServcie.applyFilter(
+                    filter,
+                    to: self.pdfMetaData.url,
+                    destinationDirectory: self.fileManagerService.getTemporaryDirectory()
+                ) {
+                    self.pdfMetaData = try await PDFMetadataService.fetchMetadata(from: url)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func compress(_ level: PDFCompressionLevel) {
+        Task { [weak self] in
+            guard let self else { return }
+            self.isProcessing = true
+            defer { self.isProcessing = false }
+            
+            do {
+                if let url = try await self.createPDFServcie.compress(
+                    level,
+                    url: self.pdfMetaData.url,
+                    destinationDirectory: self.fileManagerService.getTemporaryDirectory()
+                ) {
+                    self.pdfMetaData = try await PDFMetadataService.fetchMetadata(from: url)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func applyWatermark() {
+        let text = watermarkText
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        
+        Task { [weak self] in
+            guard let self else { return }
+            self.isProcessing = true
+            defer { self.isProcessing = false }
+            
+            do {
+                if let url = try await self.createPDFServcie.applyWatermark(
+                    text: text,
+                    to: self.pdfMetaData.url,
+                    destinationDirectory: self.fileManagerService.getTemporaryDirectory()
+                ) {
+                    self.pdfMetaData = try await PDFMetadataService.fetchMetadata(from: url)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    /// Splits selected pages into a brand-new, separately saved document —
+    /// the document currently being edited is left untouched.
+    func splitPDF(indices: [Int]) {
+        guard !indices.isEmpty else { return }
+        
+        Task { [weak self] in
+            guard let self else { return }
+            self.isProcessing = true
+            defer { self.isProcessing = false }
+            
+            do {
+                if let destination = self.fileManagerService.getPDFDirectory(),
+                   let url = try await self.createPDFServcie.extractPages(
+                    indices,
+                    from: self.pdfMetaData.url,
+                    destinationDirectory: destination
+                   ) {
+                    self.notificationService.post(event: .createPDFURL, object: url)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func showPhotoPicker() {
