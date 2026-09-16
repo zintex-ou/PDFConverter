@@ -255,8 +255,8 @@ final class PDFService {
             image.draw(at: .zero)
 
             let attributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.boldSystemFont(ofSize: image.size.width * 0.08),
-                .foregroundColor: UIColor.gray.withAlphaComponent(0.35)
+                .font: UIFont.boldSystemFont(ofSize: image.size.width * 0.14),
+                .foregroundColor: UIColor(red: 0.835, green: 0.192, blue: 0.192, alpha: 0.55) // #D53131
             ]
             let attributedText = NSAttributedString(string: text, attributes: attributes)
             let textSize = attributedText.size()
