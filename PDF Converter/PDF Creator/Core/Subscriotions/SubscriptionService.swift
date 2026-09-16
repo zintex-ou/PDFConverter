@@ -51,19 +51,21 @@ final class SubscriptionService: ObservableObject {
     }
     
     func loadProducts() {
-        Task {
-            do {
-                try await provider.loadProducts()
-            } catch {
-                #if DEBUG
-                self.isSubscribed = true
-                self.configureShortCut()
-                return
-                #endif
-                
-                if let error = AdaptyErrorManager.init(error: error).error {
-                    self.subscriptionError = error
-                }
+        Task { await loadProductsAsync() }
+    }
+
+    func loadProductsAsync() async {
+        do {
+            try await provider.loadProducts()
+        } catch {
+            #if DEBUG
+            self.isSubscribed = true
+            self.configureShortCut()
+            return
+            #endif
+            
+            if let error = AdaptyErrorManager.init(error: error).error {
+                self.subscriptionError = error
             }
         }
     }

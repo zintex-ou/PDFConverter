@@ -53,16 +53,8 @@ final class PDFEditorViewModel: ObservableObject {
         shouldShowConfirmationDialog = true
     }
     
-    func reorderPage() {
-        
-    }
-    
     func share() {
         UIApplication.shared.sharePDF(url: pdfMetaData.url)
-    }
-    
-    func extractTextPage() {
-        
     }
     
     func showPhotoPicker() {

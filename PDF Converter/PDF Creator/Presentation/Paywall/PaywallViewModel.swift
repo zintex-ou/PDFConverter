@@ -50,13 +50,11 @@ final class PaywallViewModel: ObservableObject {
     }
     
     func fetchProduct() {
-        isLoading = true
-        
-        defer {
+        Task {
+            isLoading = true
+            await subscriptionService.loadProductsAsync()
             isLoading = false
         }
-        
-        subscriptionService.loadProducts()
     }
     
     func shouldShowCrossButton() {
